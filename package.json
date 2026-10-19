@@ -1,0 +1,22 @@
+{
+  "name": "hanoi-flood-routing",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently -k -n API,WEB \"npm run dev --prefix server\" \"npm run dev --prefix client -- --port 5173 --strictPort\"",
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client -- --port 5173 --strictPort",
+    "build": "npm run build --prefix client",
+    "lint": "npm run lint --prefix client",
+    "start": "npm start --prefix server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "concurrently": "^10.0.6"
+  }
+}
