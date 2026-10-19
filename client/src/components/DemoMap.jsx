@@ -12,9 +12,11 @@ import {
 } from "react-leaflet";
 import { HANOI_CENTER, STATUS } from "../data/demoData";
 
-function MapController({ focus, route, pickMode, onPick }) {
+function MapController({ focus, route, pickMode, onPick, activeTab }) {
   const map = useMap();
-
+  useEffect(() => {
+    map.closePopup();
+  }, [activeTab, pickMode, map]);
   const routeKey = route ? JSON.stringify(route) : "";
   const focusLat = focus?.[0];
   const focusLng = focus?.[1];
@@ -66,6 +68,7 @@ export default function DemoMap({
   pickMode,
   onPick,
   reportPosition,
+  activeTab,
 }) {
   return (
     <MapContainer
@@ -86,6 +89,7 @@ export default function DemoMap({
         route={route}
         pickMode={pickMode}
         onPick={onPick}
+        activeTab={activeTab}
       />
 
       {points.map((point) => (

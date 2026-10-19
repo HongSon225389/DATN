@@ -548,6 +548,7 @@ export default function App() {
             reportPosition={tab === "report" ? reportPosition : null}
             routeType={routeType}
             pickMode={pickMode}
+            activeTab={tab}
             onPick={handlePick}
           />
 
