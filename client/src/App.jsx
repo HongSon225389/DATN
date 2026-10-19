@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import DemoMap from "./components/DemoMap";
 import {
   floodPoints,
@@ -64,6 +64,8 @@ export default function App() {
   const [description, setDescription] = useState("");
   const [reportDone, setReportDone] = useState(false);
 
+  const contentRef = useRef(null);
+
   const visiblePoints = floodPoints.filter(
     (point) => filter === "all" || point.status === filter,
   );
@@ -95,12 +97,18 @@ export default function App() {
     setTab(nextTab);
     setPickMode(null);
     setMessage("");
+    setQuery("");
+
+    contentRef.current?.scrollTo({
+      top: 0,
+      behavior: "auto",
+    });
   }
 
   function selectPoint(point) {
     setSelected(point);
     setFocus([...point.position]);
-    setTab("floods");
+    changeTab("floods");
     setPickMode(null);
     setRouteType(null);
   }
@@ -258,7 +266,7 @@ export default function App() {
             </nav>
           </div>
 
-          <div className="sidebar-content">
+          <div className="sidebar-content" ref={contentRef}>
             {tab === "floods" && (
               <>
                 <div className="section-heading">
@@ -534,9 +542,10 @@ export default function App() {
             selectedId={selected?.id}
             onSelect={selectPoint}
             focus={focus}
-            origin={origin}
-            destination={destination}
-            route={route}
+            origin={tab === "routes" ? origin : null}
+            destination={tab === "routes" ? destination : null}
+            route={tab === "routes" ? route : null}
+            reportPosition={tab === "report" ? reportPosition : null}
             routeType={routeType}
             pickMode={pickMode}
             onPick={handlePick}

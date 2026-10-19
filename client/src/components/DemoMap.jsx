@@ -15,13 +15,33 @@ import { HANOI_CENTER, STATUS } from "../data/demoData";
 function MapController({ focus, route, pickMode, onPick }) {
   const map = useMap();
 
+  const routeKey = route ? JSON.stringify(route) : "";
+  const focusLat = focus?.[0];
+  const focusLng = focus?.[1];
+
   useEffect(() => {
-    if (route?.length) {
-      map.fitBounds(route, { padding: [45, 45] });
-    } else if (focus) {
-      map.flyTo(focus, 15, { duration: 0.7 });
+    if (routeKey) {
+      map.fitBounds(JSON.parse(routeKey), {
+        padding: [45, 45],
+      });
+    } else if (typeof focusLat === "number" && typeof focusLng === "number") {
+      map.flyTo([focusLat, focusLng], 15, {
+        duration: 0.7,
+      });
     }
-  }, [focus, route, map]);
+  }, [routeKey, focusLat, focusLng, map]);
+
+  useEffect(() => {
+    const container = map.getContainer();
+
+    const observer = new ResizeObserver(() => {
+      map.invalidateSize({ pan: false });
+    });
+
+    observer.observe(container);
+
+    return () => observer.disconnect();
+  }, [map]);
 
   useMapEvents({
     click(event) {
@@ -45,6 +65,7 @@ export default function DemoMap({
   routeType,
   pickMode,
   onPick,
+  reportPosition,
 }) {
   return (
     <MapContainer
@@ -123,7 +144,22 @@ export default function DemoMap({
           </Tooltip>
         </CircleMarker>
       )}
-
+      {reportPosition && (
+        <CircleMarker
+          center={reportPosition}
+          radius={12}
+          pathOptions={{
+            color: "#ffffff",
+            weight: 3,
+            fillColor: "#ea580c",
+            fillOpacity: 1,
+          }}
+        >
+          <Tooltip permanent direction="top">
+            Vị trí báo cáo
+          </Tooltip>
+        </CircleMarker>
+      )}
       {route && (
         <Polyline
           positions={route}
