@@ -5,6 +5,9 @@ const notFound = (req, res) => {
 };
 
 const errorHandler = (error, req, res, next) => {
+  if (res.headersSent) {
+    return next(error);
+  }
   console.error("Lỗi xử lý request:", error);
 
   const isClientError =
