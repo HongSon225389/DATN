@@ -179,3 +179,54 @@ button {
     border-right: 0;
   }
 }
+
+.routing-check-legend {
+  margin-top: 20px;
+  padding: 16px;
+  border: 1px solid #dce5f1;
+  border-radius: 10px;
+}
+
+.routing-check-legend p {
+  margin: 8px 0;
+  font-size: 13px;
+}
+
+.routing-check-legend small {
+  display: block;
+  margin-top: 12px;
+  color: #7a623c;
+  line-height: 1.6;
+}
+
+.route-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 7px;
+  border-radius: 50%;
+}
+
+.route-dot.normal {
+  background: #2563eb;
+}
+
+.route-dot.avoidance {
+  background: #16856b;
+}
+
+.route-dot.area {
+  background: #dc3545;
+}
+
+.routing-check-error {
+  position: absolute;
+  top: 12px;
+  left: 55px;
+  right: 12px;
+  z-index: 1000;
+  padding: 12px;
+  background: #fff2e7;
+  color: #923b16;
+  border-radius: 8px;
+}

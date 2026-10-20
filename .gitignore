@@ -22,3 +22,9 @@ uploads/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Kết quả khảo sát kỹ thuật
+server/tmp/
+
+# Dữ liệu kiểm tra trực quan trên máy
+client/public/routing-check/

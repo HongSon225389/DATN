@@ -64,6 +64,24 @@ export default function App() {
             Chưa tích hợp dữ liệu ngập. Bản đồ trống không có nghĩa là khu vực
             không ngập.
           </p>
+          {import.meta.env.DEV && (
+            <section className="routing-check-legend">
+              <h2>Kiểm tra định tuyến</h2>
+              <p>
+                <span className="route-dot normal" /> Xanh dương: tuyến thường
+              </p>
+              <p>
+                <span className="route-dot avoidance" /> Xanh lá: tuyến có vùng
+                tránh
+              </p>
+              <p>
+                <span className="route-dot area" /> Đỏ: vùng tránh giả lập 50 m
+              </p>
+              <small>
+                Dữ liệu thử kỹ thuật, không phải thông tin ngập thực tế.
+              </small>
+            </section>
+          )}
         </aside>
 
         <section className="map-section" aria-label="Bản đồ Hà Nội">

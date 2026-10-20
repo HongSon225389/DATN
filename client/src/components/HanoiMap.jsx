@@ -5,7 +5,7 @@ import {
   Tooltip,
   useMapEvents,
 } from "react-leaflet";
-
+import RoutingCheck from "./RoutingCheck";
 function MapClickHandler({ onSelect }) {
   useMapEvents({
     click(event) {
@@ -26,7 +26,7 @@ export default function HanoiMap({ selectedPosition, onSelect }) {
         url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
-
+      {import.meta.env.DEV && <RoutingCheck />}
       <MapClickHandler onSelect={onSelect} />
 
       {selectedPosition && (
