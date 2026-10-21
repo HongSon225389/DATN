@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const floodEventSchema = new mongoose.Schema(
   {
-    // Mã ổn định để nhập lại không tạo trùng.
+    // Mã sự kiện duy nhất.
     code: {
       type: String,
       required: true,
@@ -10,26 +10,31 @@ const floodEventSchema = new mongoose.Schema(
       trim: true,
     },
 
+    // Chuẩn bị mở rộng địa bàn sau này.
     regionCode: {
       type: String,
       required: true,
       default: "HN",
       trim: true,
+      uppercase: true,
     },
 
     title: {
       type: String,
       required: true,
       trim: true,
+      maxlength: 200,
     },
 
-    // Giữ mô tả địa điểm từ nguồn.
-    sourceLocationText: {
+    // Địa chỉ hoặc mốc nhận diện hiển thị cho người dân.
+    address: {
       type: String,
       required: true,
       trim: true,
+      maxlength: 1000,
     },
 
+    // Điểm đại diện để hiển thị trên bản đồ.
     location: {
       type: {
         type: String,
@@ -37,6 +42,7 @@ const floodEventSchema = new mongoose.Schema(
         required: true,
         default: "Point",
       },
+
       coordinates: {
         type: [Number],
         required: true,
@@ -55,27 +61,17 @@ const floodEventSchema = new mongoose.Schema(
       },
     },
 
-    locationMethod: {
-      type: String,
-      enum: ["manual", "source_coordinates", "gps"],
-      default: "manual",
-    },
-
-    locationReviewStatus: {
-      type: String,
-      enum: ["needs_review", "reviewed"],
-      default: "needs_review",
-    },
-
+    // Ghi chú nội bộ, không cần trả ra API công khai.
     locationNote: {
       type: String,
       trim: true,
+      maxlength: 1000,
       default: "",
     },
 
     dataMode: {
       type: String,
-      enum: ["historical", "current"],
+      enum: ["current", "historical"],
       required: true,
     },
 
@@ -84,19 +80,49 @@ const floodEventSchema = new mongoose.Schema(
       default: false,
     },
 
+    // Quan sát đang được dùng làm thông tin hiện hành.
     latestObservationId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "FloodObservation",
+      default: null,
+    },
+
+    // Lần đầu Admin công bố sự kiện.
+    publishedAt: {
+      type: Date,
+      default: null,
+    },
+
+    // Lần gần nhất Admin công bố cập nhật tình trạng.
+    lastStatusPublishedAt: {
+      type: Date,
+      default: null,
+    },
+
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
+
+    updatedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       default: null,
     },
   },
   {
     timestamps: true,
     collection: "floodEvents",
+
+    // Dùng cho kiểm soát cập nhật đồng thời qua document.save().
+    versionKey: "revision",
+    optimisticConcurrency: true,
   },
 );
 
 floodEventSchema.index({ location: "2dsphere" });
+
 floodEventSchema.index({
   regionCode: 1,
   dataMode: 1,
