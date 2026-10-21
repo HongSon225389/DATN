@@ -5,7 +5,8 @@ import morgan from "morgan";
 
 import healthRoutes from "./routes/healthRoutes.js";
 import errorMiddleware from "./middlewares/errorMiddleware.js";
-
+import floodRoutes from "./routes/floodRoutes.js";
+import devRoutes from "./routes/devRoutes.js";
 const app = express();
 
 // Cấu hình chung.
@@ -24,7 +25,14 @@ app.use(express.json({ limit: "1mb" }));
 app.use(morgan("dev"));
 
 // Routes.
+// API công khai.
 app.use("/api/health", healthRoutes);
+app.use("/api/flood-events", floodRoutes);
+
+// Chỉ mở API khảo sát khi cấu hình rõ development.
+if (process.env.NODE_ENV === "development") {
+  app.use("/api/dev", devRoutes);
+}
 
 // Xử lý đường dẫn không tồn tại và lỗi.
 // Phải đặt sau các routes.
