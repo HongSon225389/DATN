@@ -8,6 +8,7 @@ import errorMiddleware from "./middlewares/errorMiddleware.js";
 import floodRoutes from "./routes/floodRoutes.js";
 import devRoutes from "./routes/devRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import adminFloodRoutes from "./routes/adminFloodRoutes.js";
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use(morgan("dev"));
 app.use("/api/health", healthRoutes);
 app.use("/api/flood-events", floodRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/admin/flood-events", adminFloodRoutes);
 
 // Chỉ mở API khảo sát khi cấu hình rõ development.
 if (process.env.NODE_ENV === "development") {
