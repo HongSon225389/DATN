@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
-
+import User from "./models/User.js";
+import tokenUtils from "./utils/token.js";
 dotenv.config({
   path: new URL("../.env", import.meta.url),
 });
@@ -13,7 +14,13 @@ const startServer = async () => {
       throw new Error("PORT phải là số nguyên từ 1 đến 65535");
     }
 
+    // Kiểm tra secret trước khi mở server.
+    tokenUtils.generateToken(new User()._id);
+
     await connectDB();
+
+    // Đợi unique index của email sẵn sàng.
+    await User.init();
 
     // Nạp app sau khi đã đọc biến môi trường.
     const { default: app } = await import("./app.js");

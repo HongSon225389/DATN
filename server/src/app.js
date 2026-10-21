@@ -7,6 +7,8 @@ import healthRoutes from "./routes/healthRoutes.js";
 import errorMiddleware from "./middlewares/errorMiddleware.js";
 import floodRoutes from "./routes/floodRoutes.js";
 import devRoutes from "./routes/devRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
+
 const app = express();
 
 // Cấu hình chung.
@@ -28,6 +30,7 @@ app.use(morgan("dev"));
 // API công khai.
 app.use("/api/health", healthRoutes);
 app.use("/api/flood-events", floodRoutes);
+app.use("/api/auth", authRoutes);
 
 // Chỉ mở API khảo sát khi cấu hình rõ development.
 if (process.env.NODE_ENV === "development") {
