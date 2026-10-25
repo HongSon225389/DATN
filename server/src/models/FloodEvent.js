@@ -61,6 +61,30 @@ const floodEventSchema = new mongoose.Schema(
       },
     },
 
+    // Các trường xóa đặt cùng cấp với location, title, address.
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
+
+    deletedAt: {
+      type: Date,
+      default: null,
+    },
+
+    deletedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
+
+    deletionReason: {
+      type: String,
+      trim: true,
+      maxlength: 500,
+      default: null,
+    },
+
     // Ghi chú nội bộ, không cần trả ra API công khai.
     locationNote: {
       type: String,
@@ -111,6 +135,7 @@ const floodEventSchema = new mongoose.Schema(
       default: null,
     },
   },
+
   {
     timestamps: true,
     collection: "floodEvents",

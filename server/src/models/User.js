@@ -26,6 +26,28 @@ const userSchema = new mongoose.Schema(
       select: false,
     },
 
+    // Tăng mỗi lần đặt lại mật khẩu để thu hồi JWT cũ.
+    tokenVersion: {
+      type: Number,
+      default: 0,
+      select: false,
+    },
+
+    passwordResetTokenHash: {
+      type: String,
+      select: false,
+    },
+
+    passwordResetExpiresAt: {
+      type: Date,
+      select: false,
+    },
+
+    passwordResetRequestedAt: {
+      type: Date,
+      select: false,
+    },
+
     role: {
       type: String,
       enum: ["user", "admin"],

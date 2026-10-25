@@ -45,14 +45,21 @@ const protect = async (req, res, next) => {
   }
 
   try {
-    const user = await User.findById(payload.sub);
+    const user = await User.findById(payload.sub).select("+tokenVersion");
 
     if (!user || !user.isActive) {
       return res.status(401).json({
         message: "Tài khoản không khả dụng",
       });
     }
-
+    if (
+      !Number.isSafeInteger(payload.tokenVersion) ||
+      payload.tokenVersion !== (user.tokenVersion ?? 0)
+    ) {
+      return res.status(401).json({
+        message: "Phiên đăng nhập không còn hiệu lực. Vui lòng đăng nhập lại",
+      });
+    }
     req.user = user;
     return next();
   } catch (error) {

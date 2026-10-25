@@ -75,7 +75,7 @@ const registerUser = async (req, res) => {
     });
 
     // Tạo token trước khi lưu để phát hiện lỗi cấu hình.
-    const token = tokenUtils.generateToken(user._id);
+    const token = tokenUtils.generateToken(user._id, user.tokenVersion ?? 0);
 
     await user.save();
 
@@ -117,7 +117,7 @@ const loginUser = async (req, res) => {
 
     const user = await User.findOne({
       email: email.trim().toLowerCase(),
-    }).select("+passwordHash");
+    }).select("+passwordHash +tokenVersion");
 
     const isPasswordValid = user
       ? await bcrypt.compare(password, user.passwordHash)
@@ -131,7 +131,7 @@ const loginUser = async (req, res) => {
 
     return res.status(200).json({
       user: formatUser(user),
-      token: tokenUtils.generateToken(user._id),
+      token: tokenUtils.generateToken(user._id, user.tokenVersion ?? 0),
     });
   } catch (error) {
     console.error("Lỗi đăng nhập:", error);

@@ -5,24 +5,21 @@ import {
   CircleMarker,
   Tooltip,
   useMap,
-  useMapEvents,
 } from "react-leaflet";
-
-import RoutingCheck from "./RoutingCheck";
-
-function MapController({ focus, onSelect }) {
+import LocateControl from "./LocateControl";
+function MapController({ focus }) {
   const map = useMap();
 
   const lat = focus?.[0];
   const lng = focus?.[1];
 
   useEffect(() => {
-    if (typeof lat === "number" && typeof lng === "number") {
+    if (Number.isFinite(lat) && Number.isFinite(lng)) {
       map.flyTo([lat, lng], 16, {
         duration: 0.7,
       });
     }
-  }, [lat, lng, map]);
+  }, [lat, lng, map, focus]);
 
   useEffect(() => {
     const observer = new ResizeObserver(() => {
@@ -34,56 +31,63 @@ function MapController({ focus, onSelect }) {
     return () => observer.disconnect();
   }, [map]);
 
-  useMapEvents({
-    click(event) {
-      onSelect({
-        lat: event.latlng.lat,
-        lng: event.latlng.lng,
-      });
-    },
-  });
-
   return null;
 }
 
 export default function HanoiMap({
-  selectedPosition,
-  onSelect,
-  floodEvents,
+  floodEvents = [],
   selectedEventId,
   onEventSelect,
   focus,
-  showRoutingCheck,
+  searchPosition,
 }) {
   return (
     <MapContainer center={[21.0285, 105.835]} zoom={13} className="hanoi-map">
       <TileLayer
         url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+        referrerPolicy="strict-origin-when-cross-origin"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
 
-      <MapController focus={focus} onSelect={onSelect} />
+      <MapController focus={focus} />
+      <LocateControl />
 
-      {import.meta.env.DEV && showRoutingCheck && <RoutingCheck />}
+      {searchPosition && (
+        <CircleMarker
+          center={[
+            searchPosition.coordinates[1],
+            searchPosition.coordinates[0],
+          ]}
+          radius={8}
+          pathOptions={{
+            color: "#ffffff",
+            weight: 3,
+            fillColor: "#1769d2",
+            fillOpacity: 1,
+          }}
+        >
+          <Tooltip>{searchPosition.name}</Tooltip>
+        </CircleMarker>
+      )}
 
       {floodEvents.map((event) => {
         const coordinates = event.location?.coordinates;
 
-        if (!Array.isArray(coordinates) || coordinates.length !== 2) {
+        if (
+          !Array.isArray(coordinates) ||
+          coordinates.length !== 2 ||
+          !coordinates.every(Number.isFinite)
+        ) {
           return null;
         }
 
         const [lng, lat] = coordinates;
 
-        // Lịch sử dùng màu tím để không nhầm là ngập hiện tại.
-        let color = "#7c3aed";
-
-        if (event.dataMode !== "historical") {
-          color =
-            event.latestObservation?.status === "receded"
-              ? "#16856b"
-              : "#dc3545";
+        if (lng < -180 || lng > 180 || lat < -90 || lat > 90) {
+          return null;
         }
+
+        const receded = event.latestObservation?.status === "receded";
 
         return (
           <CircleMarker
@@ -94,7 +98,7 @@ export default function HanoiMap({
             pathOptions={{
               color: "#ffffff",
               weight: 3,
-              fillColor: color,
+              fillColor: receded ? "#16856b" : "#dc3545",
               fillOpacity: 1,
             }}
             eventHandlers={{
@@ -102,29 +106,11 @@ export default function HanoiMap({
             }}
           >
             <Tooltip>
-              {event.title}
-              {event.dataMode === "historical" ? " · Lịch sử" : ""}
+              {event.title} · {receded ? "Đã rút" : "Đang ngập"}
             </Tooltip>
           </CircleMarker>
         );
       })}
-
-      {selectedPosition && (
-        <CircleMarker
-          center={[selectedPosition.lat, selectedPosition.lng]}
-          radius={8}
-          pathOptions={{
-            color: "#ffffff",
-            weight: 3,
-            fillColor: "#1769d2",
-            fillOpacity: 1,
-          }}
-        >
-          <Tooltip permanent direction="top">
-            Vị trí chọn thủ công
-          </Tooltip>
-        </CircleMarker>
-      )}
     </MapContainer>
   );
 }

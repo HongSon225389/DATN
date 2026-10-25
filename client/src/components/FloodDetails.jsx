@@ -1,10 +1,10 @@
 const formatDateTime = (value) => {
-  if (!value) return "Chưa xác định";
+  if (!value) return "Chưa rõ";
 
   const date = new Date(value);
 
   if (Number.isNaN(date.getTime())) {
-    return "Thời gian không hợp lệ";
+    return "Chưa rõ";
   }
 
   return date.toLocaleString("vi-VN", {
@@ -12,49 +12,33 @@ const formatDateTime = (value) => {
   });
 };
 
-const formatObservationTime = (observation) => {
-  if (!observation) return "Chưa có quan sát";
-
-  if (observation.timePrecision === "exact" && observation.observedAt) {
-    return formatDateTime(observation.observedAt);
-  }
-
-  if (observation.observedDate) {
-    const [year, month, day] = observation.observedDate.split("-");
-
-    return `${day}/${month}/${year} — chưa rõ giờ`;
-  }
-
-  return "Chưa xác định";
-};
-
 const formatDepth = (observation) => {
   const min = observation?.depthMinCm;
   const max = observation?.depthMaxCm;
 
-  if (min == null || max == null) {
-    return "Chưa có thông tin";
+  if (!Number.isFinite(min) || !Number.isFinite(max)) {
+    return "Chưa rõ";
   }
 
   return min === max ? `${min} cm` : `${min}–${max} cm`;
 };
 
+const trendLabels = {
+  rising: "Nước đang dâng",
+  falling: "Nước đang giảm",
+  stable: "Mực nước ổn định",
+};
+
 export default function FloodDetails({ event, onClose }) {
   const observation = event.latestObservation;
-  const source = observation?.sourceArticleId;
-
-  let statusText = "Chưa có quan sát";
-
-  if (observation?.status === "flooded") {
-    statusText = "Nguồn ghi nhận ngập";
-  } else if (observation?.status === "receded") {
-    statusText = "Nguồn ghi nhận đã rút";
-  }
+  const receded = observation?.status === "receded";
+  const trendText = trendLabels[observation?.trend];
 
   return (
-    <section className="detail-card">
+    <section className="detail-card" aria-labelledby="flood-detail-title">
       <div className="section-heading">
-        <h2>Chi tiết sự kiện</h2>
+        <h2 id="flood-detail-title">Chi tiết điểm ngập</h2>
+
         <button
           type="button"
           className="close-button"
@@ -67,74 +51,42 @@ export default function FloodDetails({ event, onClose }) {
 
       <h3>{event.title}</h3>
 
-      <p className="event-label">
-        {event.dataMode === "historical" ? "Lịch sử" : "Hiện tại"}
-        {" · "}
-        {event.isPublished ? "Đã công bố" : "Chưa công bố"}
-      </p>
+      <span className={`status-badge ${receded ? "receded" : "flooded"}`}>
+        {receded ? "Đã rút" : "Đang ngập"}
+      </span>
 
       <dl className="event-details">
         <div>
-          <dt>Phạm vi nguồn mô tả</dt>
-          <dd>{event.sourceLocationText}</dd>
+          <dt>Địa chỉ</dt>
+          <dd>{event.address || "Chưa có địa chỉ chi tiết"}</dd>
         </div>
 
         <div>
-          <dt>Tình trạng theo nguồn</dt>
-          <dd>{statusText}</dd>
-        </div>
-
-        <div>
-          <dt>Thời điểm ghi nhận</dt>
-          <dd>{formatObservationTime(observation)}</dd>
-        </div>
-
-        <div>
-          <dt>Độ sâu theo nguồn</dt>
+          <dt>Độ sâu</dt>
           <dd>{formatDepth(observation)}</dd>
         </div>
 
+        {!receded && trendText && (
+          <div>
+            <dt>Diễn biến</dt>
+            <dd>{trendText}</dd>
+          </div>
+        )}
+
         <div>
-          <dt>Định vị</dt>
-          <dd>{event.locationNote || "Chưa có ghi chú"}</dd>
+          <dt>Đăng lúc</dt>
+          <dd>{formatDateTime(event.publishedAt)}</dd>
         </div>
 
         <div>
-          <dt>Rà soát vị trí</dt>
+          <dt>Cập nhật tình trạng</dt>
           <dd>
-            {event.locationReviewStatus === "reviewed"
-              ? "Đã rà soát"
-              : "Cần rà soát"}
+            {formatDateTime(
+              event.lastStatusPublishedAt || observation?.publishedAt,
+            )}
           </dd>
         </div>
-
-        <div>
-          <dt>Đơn vị xuất bản</dt>
-          <dd>{source?.publisher || "Chưa có thông tin"}</dd>
-        </div>
-
-        <div>
-          <dt>Giờ đăng bài — Việt Nam</dt>
-          <dd>{formatDateTime(source?.publishedAt)}</dd>
-        </div>
       </dl>
-
-      {source?.url && (
-        <a
-          className="source-link"
-          href={source.url}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Mở bài nguồn ↗
-        </a>
-      )}
-
-      {event.dataMode === "historical" && (
-        <p className="notice">
-          Thông tin lịch sử, không phản ánh tình trạng ngập hiện tại.
-        </p>
-      )}
     </section>
   );
 }

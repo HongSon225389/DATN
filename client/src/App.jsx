@@ -1,77 +1,101 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import HanoiMap from "./components/HanoiMap";
 import FloodDetails from "./components/FloodDetails";
 import floodService from "./services/floodService";
-
+import { Link } from "react-router";
+import { useAuth } from "./contexts/AuthContext";
+import PlaceSearch from "./components/PlaceSearch";
 export default function App() {
-  const [selectedPosition, setSelectedPosition] = useState(null);
+  const { user, logout } = useAuth();
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [focus, setFocus] = useState(null);
 
-  const [surveyMode, setSurveyMode] = useState(false);
-  const [showRoutingCheck, setShowRoutingCheck] = useState(false);
-
   const [floodEvents, setFloodEvents] = useState([]);
+  const [truncated, setTruncated] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [reloadKey, setReloadKey] = useState(0);
 
+  const panelRef = useRef(null);
+
+  const [searchPosition, setSearchPosition] = useState(null);
+
   useEffect(() => {
     const controller = new AbortController();
+    let refreshTimer;
 
-    const loadFloodEvents = async () => {
-      setLoading(true);
-      setError("");
-      setFloodEvents([]);
-      setSelectedEvent(null);
+    const loadFloodEvents = async (background = false) => {
+      if (!background) {
+        setLoading(true);
+      }
 
       try {
-        const data = await floodService.getFloodEvents({
-          survey: surveyMode,
+        const result = await floodService.getFloodEvents({
           signal: controller.signal,
         });
 
-        if (!controller.signal.aborted) {
-          setFloodEvents(data);
-        }
+        if (controller.signal.aborted) return;
+
+        setFloodEvents(result.data);
+        setTruncated(result.truncated);
+        setError("");
+
+        // Điểm hết thời hạn hiển thị sẽ tự đóng phần chi tiết.
+        setSelectedEvent((previous) =>
+          previous
+            ? (result.data.find((event) => event.id === previous.id) ?? null)
+            : null,
+        );
       } catch (error) {
         if (!controller.signal.aborted) {
-          setError(error.message);
+          setError(
+            background
+              ? "Chưa cập nhật được dữ liệu. Đang giữ kết quả từ lần tải trước."
+              : error.message,
+          );
         }
       } finally {
         if (!controller.signal.aborted) {
           setLoading(false);
+
+          // Chờ request xong mới hẹn lần tiếp theo, tránh chồng request.
+          refreshTimer = window.setTimeout(() => {
+            loadFloodEvents(true);
+          }, 60_000);
         }
       }
     };
 
     loadFloodEvents();
 
-    return () => controller.abort();
-  }, [surveyMode, reloadKey]);
+    return () => {
+      controller.abort();
+      window.clearTimeout(refreshTimer);
+    };
+  }, [reloadKey]);
 
-  const selectEvent = (event) => {
+  const selectEvent = (event, fromMap = false) => {
     setSelectedEvent(event);
-    setSelectedPosition(null);
 
-    const [lng, lat] = event.location.coordinates;
-    setFocus([lat, lng]);
-  };
+    const coordinates = event.location?.coordinates;
 
-  const selectPosition = (position) => {
-    setSelectedPosition(position);
-    setSelectedEvent(null);
-  };
+    if (
+      Array.isArray(coordinates) &&
+      coordinates.length === 2 &&
+      coordinates.every(Number.isFinite)
+    ) {
+      const [lng, lat] = coordinates;
+      setFocus([lat, lng]);
+    }
 
-  const changeSurveyMode = (enabled) => {
-    setSurveyMode(enabled);
-    setFloodEvents([]);
-    setSelectedEvent(null);
-    setSelectedPosition(null);
-    setShowRoutingCheck(false);
-    setError("");
-    setLoading(true);
+    // Trên điện thoại, đưa phần chi tiết vào vùng nhìn thấy.
+    if (fromMap && window.matchMedia("(max-width: 700px)").matches) {
+      panelRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
   };
 
   return (
@@ -82,49 +106,40 @@ export default function App() {
           <span>Bản đồ thông tin ngập tại Hà Nội</span>
         </div>
 
-        <small>{surveyMode ? "Khảo sát lịch sử" : "Đang phát triển"}</small>
+        <div className="account-actions">
+          {user ? (
+            <>
+              {user.role === "admin" && (
+                <Link to="/admin/flood-events">Quản trị</Link>
+              )}
+
+              <button type="button" className="refresh-button" onClick={logout}>
+                Đăng xuất
+              </button>
+            </>
+          ) : (
+            <Link to="/login">Đăng nhập</Link>
+          )}
+        </div>
       </header>
 
       <main className="workspace">
-        <aside className="sidebar">
-          <p className="eyebrow">KHU VỰC THÍ ĐIỂM</p>
-          <h1>Hà Nội</h1>
+        <aside className="sidebar" ref={panelRef}>
+          <PlaceSearch
+            onSelect={(place) => {
+              const [lng, lat] = place.coordinates;
 
-          {import.meta.env.DEV && (
-            <section className="development-panel">
-              <h2>Công cụ phát triển</h2>
+              setSearchPosition({
+                coordinates: place.coordinates,
+                name: place.name,
+              });
 
-              <label className="toggle-label">
-                <input
-                  type="checkbox"
-                  checked={surveyMode}
-                  onChange={(event) => changeSurveyMode(event.target.checked)}
-                />
-                Xem 5 sự kiện khảo sát lịch sử
-              </label>
-
-              <label className="toggle-label">
-                <input
-                  type="checkbox"
-                  checked={showRoutingCheck}
-                  onChange={(event) =>
-                    setShowRoutingCheck(event.target.checked)
-                  }
-                />
-                Hiện lớp kiểm tra định tuyến
-              </label>
-            </section>
-          )}
-
-          {surveyMode && (
-            <p className="notice">
-              Dữ liệu lịch sử ngày 30/09/2025, chưa công bố. Không dùng cho định
-              tuyến hiện tại.
-            </p>
-          )}
-
+              setFocus([lat, lng]);
+              setSelectedEvent(null);
+            }}
+          />
           <div className="section-heading">
-            <h2>{surveyMode ? "Sự kiện khảo sát" : "Thông tin đã công bố"}</h2>
+            <h1>Thông tin ngập</h1>
 
             <button
               type="button"
@@ -132,97 +147,95 @@ export default function App() {
               disabled={loading}
               onClick={() => setReloadKey((value) => value + 1)}
             >
-              Tải lại
+              {loading ? "Đang tải…" : "Tải lại"}
             </button>
           </div>
 
-          <div aria-live="polite">
-            {loading && <p>Đang tải dữ liệu…</p>}
-
+          <div aria-live="polite" aria-busy={loading}>
             {error && (
               <p className="error-message" role="alert">
                 {error}
+                {floodEvents.length > 0 &&
+                  " Đang giữ dữ liệu từ lần tải trước."}
               </p>
             )}
 
             {!loading && !error && floodEvents.length === 0 && (
               <p className="notice">
-                Chưa có dữ liệu phù hợp. Điều này không có nghĩa khu vực không
-                ngập.
+                Chưa có thông tin ngập hiện tại được công bố. Điều này không có
+                nghĩa khu vực không ngập.
               </p>
+            )}
+
+            {truncated && (
+              <p className="notice">Đang hiển thị tối đa 100 địa điểm.</p>
             )}
           </div>
 
-          {selectedEvent && (
-            <FloodDetails
-              event={selectedEvent}
-              onClose={() => setSelectedEvent(null)}
-            />
-          )}
-
-          <div className="flood-list">
-            {floodEvents.map((event) => (
+          {selectedEvent ? (
+            <>
               <button
                 type="button"
-                key={event.id}
-                className={`flood-item ${
-                  selectedEvent?.id === event.id ? "selected" : ""
-                }`}
-                onClick={() => selectEvent(event)}
+                className="back-button"
+                onClick={() => setSelectedEvent(null)}
               >
-                <strong>{event.title}</strong>
-                <span>{event.sourceLocationText}</span>
-
-                <small>
-                  {event.dataMode === "historical" ? "Lịch sử" : "Hiện tại"}
-                  {" · "}
-                  {event.isPublished ? "Đã công bố" : "Chưa công bố"}
-                </small>
+                ← Danh sách địa điểm
               </button>
-            ))}
-          </div>
 
-          {selectedPosition && (
-            <section className="location-card">
-              <h2>Vị trí chọn thủ công</h2>
-
-              <label htmlFor="coordinates">GeoJSON: kinh độ, vĩ độ</label>
-
-              <input
-                id="coordinates"
-                readOnly
-                value={`[${selectedPosition.lng.toFixed(6)}, ${selectedPosition.lat.toFixed(6)}]`}
-                onFocus={(event) => event.target.select()}
+              <FloodDetails
+                event={selectedEvent}
+                onClose={() => setSelectedEvent(null)}
               />
+            </>
+          ) : (
+            <div className="flood-list">
+              {floodEvents.map((event) => {
+                const receded = event.latestObservation?.status === "receded";
 
-              <button onClick={() => setSelectedPosition(null)}>Bỏ chọn</button>
-            </section>
-          )}
+                return (
+                  <button
+                    type="button"
+                    key={event.id}
+                    className="flood-item"
+                    onClick={() => selectEvent(event)}
+                  >
+                    <strong>{event.title}</strong>
+                    <span>{event.address || "Chưa có địa chỉ chi tiết"}</span>
 
-          {showRoutingCheck && import.meta.env.DEV && (
-            <p className="notice">
-              Lớp tuyến thử: xanh dương là tuyến thường, xanh lá là tuyến tránh
-              polygon đỏ giả lập. Lớp này không sử dụng các sự kiện lịch sử.
-            </p>
+                    <small
+                      className={`status-badge ${
+                        receded ? "receded" : "flooded"
+                      }`}
+                    >
+                      {receded ? "Đã rút" : "Đang ngập"}
+                    </small>
+                  </button>
+                );
+              })}
+            </div>
           )}
         </aside>
 
-        <section className="map-section" aria-label="Bản đồ Hà Nội">
+        <section className="map-section" aria-label="Bản đồ ngập tại Hà Nội">
           <HanoiMap
-            selectedPosition={selectedPosition}
-            onSelect={selectPosition}
             floodEvents={floodEvents}
             selectedEventId={selectedEvent?.id}
-            onEventSelect={selectEvent}
+            onEventSelect={(event) => selectEvent(event, true)}
             focus={focus}
-            showRoutingCheck={showRoutingCheck}
+            searchPosition={searchPosition}
           />
 
-          {surveyMode && (
-            <div className="history-map-label">
-              ● Điểm tím: dữ liệu lịch sử, vị trí cần rà soát
-            </div>
-          )}
+          <div className="map-legend" aria-label="Chú giải">
+            <span>
+              <i className="legend-dot flooded" />
+              Đang ngập
+            </span>
+
+            <span>
+              <i className="legend-dot receded" />
+              Đã rút
+            </span>
+          </div>
         </section>
       </main>
     </div>

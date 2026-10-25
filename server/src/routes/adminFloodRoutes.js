@@ -5,10 +5,16 @@ import authMiddleware from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-// Mọi route phía dưới đều yêu cầu Admin.
 router.use(authMiddleware.protect, authMiddleware.adminOnly);
+router.get("/:id/observations", adminFloodController.getFloodObservations);
+router.post("/:id/observations", adminFloodController.addFloodObservation);
 
+router.post("/", adminFloodController.createFloodEvent);
 router.get("/", adminFloodController.getFloodEvents);
-router.get("/:id", adminFloodController.getFloodEventById);
 
+router.patch("/:id/draft", adminFloodController.updateFloodEventDraft);
+router.post("/:id/publish", adminFloodController.publishFloodEvent);
+
+router.get("/:id", adminFloodController.getFloodEventById);
+router.delete("/:id", adminFloodController.deleteFloodEvent);
 export default router;

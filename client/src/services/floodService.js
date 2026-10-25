@@ -2,15 +2,10 @@ const API_BASE_URL = (
   import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api"
 ).replace(/\/+$/, "");
 
-const getFloodEvents = async ({ survey = false, signal } = {}) => {
-  if (survey && !import.meta.env.DEV) {
-    throw new Error("Chế độ khảo sát chỉ dùng trong development");
-  }
-
-  const path = survey ? "/dev/flood-events" : "/flood-events";
-
-  const response = await fetch(`${API_BASE_URL}${path}`, {
+const getFloodEvents = async ({ signal } = {}) => {
+  const response = await fetch(`${API_BASE_URL}/flood-events`, {
     signal,
+    cache: "no-store",
   });
 
   if (!response.ok) {
@@ -23,7 +18,10 @@ const getFloodEvents = async ({ survey = false, signal } = {}) => {
     throw new Error("Dữ liệu API không đúng định dạng");
   }
 
-  return result.data;
+  return {
+    data: result.data,
+    truncated: result.truncated === true,
+  };
 };
 
 export default {

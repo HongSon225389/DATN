@@ -10,8 +10,8 @@ const getSecret = () => {
   return secret;
 };
 
-const generateToken = (userId) => {
-  return jwt.sign({}, getSecret(), {
+const generateToken = (userId, tokenVersion = 0) => {
+  return jwt.sign({ tokenVersion }, getSecret(), {
     subject: userId.toString(),
     algorithm: "HS256",
     expiresIn: "1h",

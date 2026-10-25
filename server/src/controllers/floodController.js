@@ -1,97 +1,210 @@
 import mongoose from "mongoose";
+
 import FloodEvent from "../models/FloodEvent.js";
+import FloodObservation from "../models/FloodObservation.js";
 
-// Đăng ký các Model được populate.
-import "../models/FloodObservation.js";
-import "../models/SourceArticle.js";
+const RECEDED_VISIBLE_MS = 24 * 60 * 60 * 1000;
 
-const observationPopulate = {
-  path: "latestObservationId",
-  select:
-    "status observedAt observedDate timePrecision timeNote " +
-    "depthMinCm depthMaxCm depthMethod note sourceArticleId",
-  populate: {
-    path: "sourceArticleId",
-    select: "title publisher url publishedAt",
-  },
+const buildPublicPipeline = ({ mode, id, now }) => {
+  const filter = {
+    regionCode: "HN",
+    isPublished: true,
+    isDeleted: { $ne: true },
+    publishedAt: {
+      $type: "date",
+      $lte: now,
+    },
+  };
+
+  if (mode) {
+    filter.dataMode = mode;
+  }
+
+  if (id) {
+    filter._id = new mongoose.Types.ObjectId(id);
+  }
+
+  const cutoff = new Date(now.getTime() - RECEDED_VISIBLE_MS);
+
+  return [
+    {
+      $match: filter,
+    },
+
+    // Lấy đúng bản ghi tình trạng mới nhất của chính điểm này.
+    {
+      $lookup: {
+        from: FloodObservation.collection.name,
+        let: {
+          observationId: "$latestObservationId",
+          eventId: "$_id",
+        },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  { $eq: ["$_id", "$$observationId"] },
+                  { $eq: ["$floodEventId", "$$eventId"] },
+                ],
+              },
+              publishedAt: {
+                $type: "date",
+                $lte: now,
+              },
+            },
+          },
+          {
+            $project: {
+              status: 1,
+              trend: 1,
+              depthMinCm: 1,
+              depthMaxCm: 1,
+              publishedAt: 1,
+            },
+          },
+        ],
+        as: "publicObservation",
+      },
+    },
+
+    {
+      $unwind: "$publicObservation",
+    },
+
+    {
+      $match: {
+        $or: [
+          // Dữ liệu lịch sử không áp dụng thời hạn 24 giờ.
+          {
+            dataMode: "historical",
+            "publicObservation.status": {
+              $in: ["flooded", "receded"],
+            },
+          },
+
+          // Điểm hiện tại vẫn đang ngập thì tiếp tục hiển thị.
+          {
+            dataMode: "current",
+            "publicObservation.status": "flooded",
+          },
+
+          // Đã rút chỉ hiển thị trong 24 giờ sau lần công bố này.
+          {
+            dataMode: "current",
+            "publicObservation.status": "receded",
+            "publicObservation.publishedAt": {
+              $gt: cutoff,
+            },
+          },
+        ],
+      },
+    },
+
+    {
+      $sort: {
+        lastStatusPublishedAt: -1,
+        _id: -1,
+      },
+    },
+
+    {
+      $project: {
+        code: 1,
+        regionCode: 1,
+        title: 1,
+        address: 1,
+        location: 1,
+        dataMode: 1,
+        publishedAt: 1,
+        lastStatusPublishedAt: 1,
+        publicObservation: 1,
+      },
+    },
+  ];
 };
 
-// Chuyển document thành dữ liệu trả cho frontend.
 const formatFloodEvent = (event) => {
+  const observation = event.publicObservation;
+
   return {
     id: event._id,
     code: event.code,
     regionCode: event.regionCode,
     title: event.title,
-    sourceLocationText: event.sourceLocationText,
+    address: event.address ?? null,
     location: event.location,
-    locationMethod: event.locationMethod,
-    locationReviewStatus: event.locationReviewStatus,
-    locationNote: event.locationNote,
     dataMode: event.dataMode,
-    isPublished: event.isPublished,
-    latestObservation: event.latestObservationId || null,
-    createdAt: event.createdAt,
-    updatedAt: event.updatedAt,
+
+    publishedAt: event.publishedAt,
+    lastStatusPublishedAt: event.lastStatusPublishedAt,
+
+    latestObservation: {
+      status: observation.status,
+      trend: observation.trend ?? "unknown",
+      depthMinCm: observation.depthMinCm ?? null,
+      depthMaxCm: observation.depthMaxCm ?? null,
+      publishedAt: observation.publishedAt,
+    },
   };
 };
 
 // GET /api/flood-events
-const getFloodEvents = async (req, res) => {
+const getFloodEvents = async (req, res, next) => {
   try {
-    const mode = req.query.mode || "current";
+    const mode = req.query.mode ?? "current";
 
-    if (!["current", "historical"].includes(mode)) {
+    if (typeof mode !== "string" || !["current", "historical"].includes(mode)) {
       return res.status(400).json({
         message: "mode chỉ nhận current hoặc historical",
       });
     }
 
-    const events = await FloodEvent.find({
-      regionCode: "HN",
-      dataMode: mode,
-      isPublished: true,
-    })
-      .populate(observationPopulate)
-      .sort({ createdAt: -1, _id: -1 })
-      .limit(100)
-      .lean();
+    const events = await FloodEvent.aggregate([
+      ...buildPublicPipeline({
+        mode,
+        now: new Date(),
+      }),
+      { $limit: 101 },
+    ]);
+
+    // Kết quả thay đổi theo thời gian kể cả khi database không đổi.
+    res.set("Cache-Control", "no-store");
 
     return res.status(200).json({
-      count: events.length,
-      data: events.map(formatFloodEvent),
+      count: Math.min(events.length, 100),
+      truncated: events.length > 100,
+      data: events.slice(0, 100).map(formatFloodEvent),
     });
   } catch (error) {
-    console.error("Lỗi lấy danh sách ngập:", error);
-
-    return res.status(500).json({
-      message: "Không thể lấy danh sách thông tin ngập",
-    });
+    return next(error);
   }
 };
 
 // GET /api/flood-events/:id
-const getFloodEventById = async (req, res) => {
+const getFloodEventById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
     if (!mongoose.isObjectIdOrHexString(id)) {
       return res.status(400).json({
-        message: "Mã sự kiện không hợp lệ",
+        message: "ID địa điểm ngập không hợp lệ",
       });
     }
 
-    const event = await FloodEvent.findOne({
-      _id: id,
-      regionCode: "HN",
-      isPublished: true,
-    })
-      .populate(observationPopulate)
-      .lean();
+    const [event] = await FloodEvent.aggregate([
+      ...buildPublicPipeline({
+        id,
+        now: new Date(),
+      }),
+      { $limit: 1 },
+    ]);
+
+    res.set("Cache-Control", "no-store");
 
     if (!event) {
       return res.status(404).json({
-        message: "Không tìm thấy sự kiện đã công bố",
+        message: "Địa điểm không còn hiển thị hoặc chưa được công bố",
       });
     }
 
@@ -99,48 +212,15 @@ const getFloodEventById = async (req, res) => {
       data: formatFloodEvent(event),
     });
   } catch (error) {
-    console.error("Lỗi lấy chi tiết ngập:", error);
-
-    return res.status(500).json({
-      message: "Không thể lấy chi tiết thông tin ngập",
-    });
+    return next(error);
   }
 };
 
-// GET /api/dev/flood-events
-// Chỉ dùng kiểm tra dữ liệu khảo sát trong development.
-const getSurveyFloodEvents = async (req, res) => {
-  try {
-    const events = await FloodEvent.find({
-      code: {
-        $in: [
-          "HN-20250930-KS01",
-          "HN-20250930-KS02",
-          "HN-20250930-KS03",
-          "HN-20250930-KS04",
-          "HN-20250930-KS05",
-        ],
-      },
-      dataMode: "historical",
-    })
-      .populate(observationPopulate)
-      .sort({ code: 1 })
-      .lean();
-
-    return res.status(200).json({
-      purpose: "development-survey",
-      message:
-        "Dữ liệu lịch sử khảo sát, có thể chưa công bố. Không dùng cho định tuyến hiện tại.",
-      count: events.length,
-      data: events.map(formatFloodEvent),
-    });
-  } catch (error) {
-    console.error("Lỗi đọc dữ liệu khảo sát:", error);
-
-    return res.status(500).json({
-      message: "Không thể đọc dữ liệu khảo sát",
-    });
-  }
+// Giữ để route development cũ không gây lỗi khởi động.
+const getSurveyFloodEvents = (req, res) => {
+  return res.status(410).json({
+    message: "API khảo sát cũ đã ngừng sử dụng",
+  });
 };
 
 export default {
