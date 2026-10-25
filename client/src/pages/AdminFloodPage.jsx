@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Link, useLocation } from "react-router";
+import { useLocation } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
 import AdminFloodDetails from "../components/AdminFloodDetails";
 import adminFloodService from "../services/adminFloodService";
@@ -13,6 +13,7 @@ export default function AdminFloodPage() {
     mode: "",
     published: "",
     page: 1,
+    limit: 10,
   });
 
   const [result, setResult] = useState(null);
@@ -68,6 +69,7 @@ export default function AdminFloodPage() {
 
   const changeFilter = (key, value) => {
     setSelectedId(null);
+
     setFilters((previous) => ({
       ...previous,
       [key]: value,
@@ -88,15 +90,6 @@ export default function AdminFloodPage() {
         <div>
           <h1>Quản lý điểm ngập</h1>
           <p>Xin chào, {user.name}</p>
-        </div>
-
-        <div className="account-actions">
-          <Link to="/admin/flood-events/new">+ Tạo điểm ngập</Link>
-          <Link to="/">Xem bản đồ</Link>
-
-          <button type="button" className="refresh-button" onClick={logout}>
-            Đăng xuất
-          </button>
         </div>
       </header>
 
@@ -162,6 +155,20 @@ export default function AdminFloodPage() {
                 <option value="">Tất cả</option>
                 <option value="false">Chưa công khai</option>
                 <option value="true">Đã đăng</option>
+              </select>
+            </label>
+
+            <label>
+              Số mục mỗi trang
+              <select
+                value={filters.limit}
+                disabled={loading}
+                onChange={(event) =>
+                  changeFilter("limit", Number(event.target.value))
+                }
+              >
+                <option value={10}>10</option>
+                <option value={20}>20</option>
               </select>
             </label>
 

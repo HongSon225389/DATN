@@ -1,6 +1,7 @@
 import { Link, Navigate, Outlet } from "react-router";
 
 import { useAuth } from "../contexts/AuthContext";
+import AdminNavbar from "./AdminNavbar";
 
 export default function AdminRoute() {
   const { user } = useAuth();
@@ -21,5 +22,10 @@ export default function AdminRoute() {
     );
   }
 
-  return <Outlet />;
+  return (
+    <div className="admin-shell">
+      <AdminNavbar />
+      <Outlet />
+    </div>
+  );
 }

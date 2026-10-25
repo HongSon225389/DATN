@@ -134,10 +134,6 @@ export default function AdminFloodCreatePage() {
           <h1>Tạo điểm ngập</h1>
           <p>Nhập thông tin và lưu nháp trước khi công bố.</p>
         </div>
-
-        {!loading && (
-          <Link to="/admin/flood-events">← Danh sách điểm ngập</Link>
-        )}
       </header>
 
       <form className="admin-panel admin-form" onSubmit={handleSubmit}>

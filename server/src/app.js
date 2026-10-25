@@ -10,6 +10,10 @@ import devRoutes from "./routes/devRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import adminFloodRoutes from "./routes/adminFloodRoutes.js";
 import placeRoutes from "./routes/placeRoutes.js";
+import floodReportRoutes from "./routes/floodReportRoutes.js";
+import adminFloodReportRoutes from "./routes/adminFloodReportRoutes.js";
+import adminUserRoutes from "./routes/adminUserRoutes.js";
+
 const app = express();
 
 // Cấu hình chung.
@@ -39,6 +43,9 @@ if (process.env.NODE_ENV === "development") {
   app.use("/api/dev", devRoutes);
 }
 app.use("/api/places", placeRoutes);
+app.use("/api/flood-reports", floodReportRoutes);
+app.use("/api/admin/flood-reports", adminFloodReportRoutes);
+app.use("/api/admin/users", adminUserRoutes);
 
 // Xử lý đường dẫn không tồn tại và lỗi.
 // Phải đặt sau các routes.

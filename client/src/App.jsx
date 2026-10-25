@@ -3,11 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import HanoiMap from "./components/HanoiMap";
 import FloodDetails from "./components/FloodDetails";
 import floodService from "./services/floodService";
-import { Link } from "react-router";
-import { useAuth } from "./contexts/AuthContext";
 import PlaceSearch from "./components/PlaceSearch";
 export default function App() {
-  const { user, logout } = useAuth();
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [focus, setFocus] = useState(null);
 
@@ -100,29 +97,6 @@ export default function App() {
 
   return (
     <div className="app">
-      <header className="header">
-        <div>
-          <strong>Hanoi Flood</strong>
-          <span>Bản đồ thông tin ngập tại Hà Nội</span>
-        </div>
-
-        <div className="account-actions">
-          {user ? (
-            <>
-              {user.role === "admin" && (
-                <Link to="/admin/flood-events">Quản trị</Link>
-              )}
-
-              <button type="button" className="refresh-button" onClick={logout}>
-                Đăng xuất
-              </button>
-            </>
-          ) : (
-            <Link to="/login">Đăng nhập</Link>
-          )}
-        </div>
-      </header>
-
       <main className="workspace">
         <aside className="sidebar" ref={panelRef}>
           <PlaceSearch
