@@ -23,6 +23,7 @@ import AdminFloodPage from "./pages/AdminFloodPage";
 import AdminFloodCreatePage from "./pages/AdminFloodCreatePage";
 import AdminUsersPage from "./pages/AdminUsersPage";
 
+import AdminAvoidancePage from "./pages/AdminAvoidancePage";
 export default function AppRoutes() {
   return (
     <Routes>
@@ -77,6 +78,10 @@ export default function AppRoutes() {
         />
 
         <Route path="/admin/users" element={<AdminUsersPage />} />
+        <Route
+          path="/admin/routing-avoidances"
+          element={<AdminAvoidancePage />}
+        />
       </Route>
 
       {/* Đường dẫn không tồn tại. */}

@@ -1,7 +1,15 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
+
 import { Circle, CircleMarker, Tooltip, useMap } from "react-leaflet";
 
-export default function LocateControl() {
+const LocateControl = forwardRef(function LocateControl(props, ref) {
   const map = useMap();
   const mounted = useRef(false);
   const pending = useRef(false);
@@ -18,76 +26,83 @@ export default function LocateControl() {
     };
   }, []);
 
-  const locate = () => {
-    if (pending.current) return;
+  const locate = useCallback(
+    ({ onSuccess } = {}) => {
+      if (pending.current) return;
 
-    setError("");
+      setError("");
 
-    if (!window.isSecureContext || !navigator.geolocation) {
-      setError("Trình duyệt cần HTTPS hoặc localhost để lấy vị trí.");
-      return;
-    }
+      if (!window.isSecureContext || !navigator.geolocation) {
+        setError("Trình duyệt cần HTTPS hoặc localhost để lấy vị trí.");
+        return;
+      }
 
-    pending.current = true;
-    setLoading(true);
+      pending.current = true;
+      setLoading(true);
 
-    navigator.geolocation.getCurrentPosition(
-      ({ coords }) => {
-        pending.current = false;
+      navigator.geolocation.getCurrentPosition(
+        ({ coords }) => {
+          pending.current = false;
 
-        if (!mounted.current) return;
+          if (!mounted.current) return;
 
-        const next = {
-          lat: coords.latitude,
-          lng: coords.longitude,
-          accuracy: coords.accuracy,
-        };
+          const next = {
+            lat: coords.latitude,
+            lng: coords.longitude,
+            accuracy: coords.accuracy,
+          };
 
-        setPosition(next);
-        setLoading(false);
+          setPosition(next);
+          setLoading(false);
 
-        const center = [next.lat, next.lng];
+          const center = [next.lat, next.lng];
 
-        if (next.accuracy <= 200) {
-          map.flyTo(center, 16);
-        } else {
-          map.fitBounds(
-            [
-              [next.lat - 0.001, next.lng - 0.001],
-              [next.lat + 0.001, next.lng + 0.001],
-            ],
-            { maxZoom: 14 },
-          );
+          if (next.accuracy <= 200) {
+            map.flyTo(center, 16);
+          } else {
+            map.fitBounds(
+              [
+                [next.lat - 0.001, next.lng - 0.001],
+                [next.lat + 0.001, next.lng + 0.001],
+              ],
+              { maxZoom: 14 },
+            );
 
-          setError(
-            `Vị trí chỉ mang tính gần đúng, sai số khoảng ${Math.round(
-              next.accuracy,
-            )} m.`,
-          );
-        }
-      },
-      (failure) => {
-        pending.current = false;
+            setError(
+              `Vị trí gần đúng, sai số khoảng ${Math.round(
+                next.accuracy,
+              )} m. Kiểm tra lại điểm đi trước khi tìm đường.`,
+            );
+          }
 
-        if (!mounted.current) return;
+          onSuccess?.(next);
+        },
+        (failure) => {
+          pending.current = false;
 
-        setLoading(false);
+          if (!mounted.current) return;
 
-        const messages = {
-          1: "Bạn chưa cho phép truy cập vị trí. Hãy kiểm tra quyền của trang.",
-          2: "Thiết bị chưa xác định được vị trí.",
-          3: "Lấy vị trí quá thời gian. Vui lòng thử lại.",
-        };
+          setLoading(false);
 
-        setError(messages[failure.code] || "Không lấy được vị trí.");
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 15000,
-        maximumAge: 30000,
-      },
-    );
-  };
+          const messages = {
+            1: "Bạn chưa cho phép truy cập vị trí. Hãy kiểm tra quyền của trang.",
+            2: "Thiết bị chưa xác định được vị trí.",
+            3: "Lấy vị trí quá thời gian. Vui lòng thử lại.",
+          };
+
+          setError(messages[failure.code] || "Không lấy được vị trí.");
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 15000,
+          maximumAge: 30000,
+        },
+      );
+    },
+    [map],
+  );
+
+  useImperativeHandle(ref, () => ({ locate }), [locate]);
 
   return (
     <>
@@ -100,7 +115,7 @@ export default function LocateControl() {
         <button
           type="button"
           disabled={loading}
-          onClick={locate}
+          onClick={() => locate()}
           title="Đến vị trí hiện tại của tôi"
         >
           {loading ? "Đang định vị…" : "◎ Vị trí của tôi"}
@@ -144,4 +159,6 @@ export default function LocateControl() {
       )}
     </>
   );
-}
+});
+
+export default LocateControl;

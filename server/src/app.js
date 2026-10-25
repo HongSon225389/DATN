@@ -13,6 +13,8 @@ import placeRoutes from "./routes/placeRoutes.js";
 import floodReportRoutes from "./routes/floodReportRoutes.js";
 import adminFloodReportRoutes from "./routes/adminFloodReportRoutes.js";
 import adminUserRoutes from "./routes/adminUserRoutes.js";
+import routingRoutes from "./routes/routingRoutes.js";
+import adminAvoidanceRoutes from "./routes/adminAvoidanceRoutes.js";
 
 const app = express();
 
@@ -46,6 +48,8 @@ app.use("/api/places", placeRoutes);
 app.use("/api/flood-reports", floodReportRoutes);
 app.use("/api/admin/flood-reports", adminFloodReportRoutes);
 app.use("/api/admin/users", adminUserRoutes);
+app.use("/api/routes", routingRoutes);
+app.use("/api/admin/routing-avoidances", adminAvoidanceRoutes);
 
 // Xử lý đường dẫn không tồn tại và lỗi.
 // Phải đặt sau các routes.

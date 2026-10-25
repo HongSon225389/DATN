@@ -1347,3 +1347,340 @@ button.danger-button:disabled,
     height: auto;
   }
 }
+
+.routing-panel {
+  margin: 24px 0;
+  padding: 16px;
+  border: 1px solid #dce5f1;
+  border-radius: 12px;
+  background: #f8fbff;
+}
+
+.routing-panel h2 {
+  margin: 0 0 12px;
+}
+
+.route-endpoint {
+  margin: 16px 0;
+}
+
+.route-endpoint .place-search label {
+  margin-top: 0;
+}
+
+.routing-panel .admin-search-row {
+  flex-wrap: wrap;
+}
+
+.routing-panel .admin-search-row input {
+  min-width: 0;
+  width: 100%;
+}
+
+.route-selected-place {
+  margin: 10px 0;
+  font-size: 12px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.route-result {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #dce5f1;
+}
+
+.route-result>strong {
+  color: #1769d2;
+  font-size: 18px;
+}
+
+.route-result small {
+  color: #64748b;
+}
+
+.map-sidebar-section {
+  scroll-margin-top: calc(var(--public-header-height, 80px) + 12px);
+}
+
+.legend-dot.route-line {
+  background: #2563eb;
+}
+
+/* Bố cục sidebar bản đồ. */
+.public-shell .workspace {
+  grid-template-columns: 380px minmax(0, 1fr);
+}
+
+.public-shell .sidebar {
+  padding: 0 18px 20px;
+  scrollbar-gutter: stable;
+  overflow-anchor: auto;
+}
+
+.map-sidebar-tabs {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin: 0 -18px 18px;
+  padding: 12px 18px;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.map-sidebar-tabs button {
+  min-height: 42px;
+  margin: 0;
+  padding: 9px 12px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: #f1f5f9;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.map-sidebar-tabs button.active {
+  color: #1769d2;
+  background: #edf5ff;
+  border-color: #caddf7;
+}
+
+.map-sidebar-section[hidden] {
+  display: none;
+}
+
+.public-shell .sidebar h1,
+.public-shell .sidebar h2 {
+  font-size: 18px;
+}
+
+.public-shell .sidebar .section-heading {
+  margin: 20px 0 14px;
+}
+
+/* Ô tìm địa chỉ gọn hơn. */
+.public-shell .sidebar .place-search label {
+  margin-top: 0;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.public-shell .sidebar .admin-search-row {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: nowrap;
+  gap: 6px;
+}
+
+.public-shell .sidebar .admin-search-row input {
+  flex: 1;
+  min-width: 0;
+  width: auto;
+  margin: 0;
+  padding: 10px;
+  font-size: 13px;
+}
+
+.public-shell .sidebar .admin-search-row button {
+  flex-shrink: 0;
+  margin: 0;
+  padding: 8px 10px;
+  font-size: 12px;
+}
+
+.public-shell .sidebar .place-results:empty {
+  display: none;
+}
+
+/* Danh sách và chi tiết nằm cùng một thẻ. */
+.flood-list-entry {
+  border: 1px solid #e0e6ef;
+  border-radius: 12px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.flood-list-entry.selected {
+  border-color: #1769d2;
+  box-shadow: 0 0 0 2px #1769d212;
+}
+
+.public-shell .flood-list-entry>.flood-item {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 14px;
+  border: 0;
+  border-radius: 0;
+  background: #ffffff;
+  color: #24374b;
+  text-align: left;
+}
+
+.public-shell .flood-list-entry.selected>.flood-item {
+  background: #f0f6ff;
+}
+
+.public-shell .flood-item-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.public-shell .flood-item-heading strong {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.public-shell .flood-item-chevron {
+  flex-shrink: 0;
+  margin: 0;
+  color: #1769d2;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.flood-inline-detail {
+  padding: 0 14px 14px;
+  border-top: 1px solid #dce8fa;
+}
+
+.public-shell .flood-inline-detail .detail-card {
+  margin: 0;
+  padding: 14px 0 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.public-shell .flood-inline-detail .event-details div {
+  margin: 12px 0;
+}
+
+/* Form tìm đường. */
+.public-shell .routing-panel {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.public-shell .routing-panel h2 {
+  margin: 0 0 16px;
+}
+
+.public-shell .route-endpoint {
+  padding: 12px;
+  margin: 12px 0;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #f8fafc;
+}
+
+.public-shell .route-selected-place {
+  margin: 10px 0 0;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.public-shell .routing-panel button {
+  min-height: 38px;
+  padding: 8px 10px;
+  border: 1px solid #dce5f1;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #1769d2;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.public-shell .routing-panel button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.public-shell .routing-panel .admin-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.public-shell .routing-panel .admin-form-actions button {
+  margin: 0;
+}
+
+.public-shell .routing-panel .toggle-label {
+  margin: 16px 0;
+  font-size: 12px;
+}
+
+.public-shell .route-result {
+  padding: 14px;
+  border: 1px solid #caddf7;
+  border-radius: 10px;
+  background: #f0f6ff;
+}
+
+.public-shell .route-result p {
+  margin: 8px 0;
+  font-size: 12px;
+}
+
+@media (max-width: 700px) {
+  .public-shell .workspace {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .public-shell .sidebar {
+    overflow: visible;
+    padding: 0 14px 20px;
+  }
+
+  .map-sidebar-tabs {
+    top: var(--public-header-height, 80px);
+    margin: 0 -14px 16px;
+    padding: 10px 14px;
+  }
+}
+
+.public-shell .route-selected-place {
+  margin-top: 10px;
+}
+
+.public-shell .route-selected-place p {
+  margin: 0 0 8px;
+  font-size: 12px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.public-shell .routing-panel .route-remove-point {
+  min-height: 32px;
+  padding: 6px 10px;
+  color: #b42318;
+  background: #fff1f1;
+  border-color: #f1cccc;
+}
+
+.avoidance-editor-map {
+  height: 480px;
+  margin: 18px 0;
+  overflow: hidden;
+  border: 1px solid #dce5f1;
+  border-radius: 12px;
+}
+
+@media (max-width: 700px) {
+  .avoidance-editor-map {
+    height: 360px;
+  }
+}

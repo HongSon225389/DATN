@@ -2,7 +2,12 @@ import { useEffect, useId, useRef, useState } from "react";
 
 import placeService from "../services/placeService";
 
-export default function PlaceSearch({ onSelect, disabled = false }) {
+export default function PlaceSearch({
+  onSelect,
+  disabled = false,
+  label = "Tìm địa chỉ trên bản đồ",
+  onQueryChange,
+}) {
   const inputId = useId();
   const controllerRef = useRef(null);
 
@@ -58,7 +63,7 @@ export default function PlaceSearch({ onSelect, disabled = false }) {
 
   return (
     <div className="place-search">
-      <label htmlFor={inputId}>Tìm địa chỉ trên bản đồ</label>
+      <label htmlFor={inputId}>{label}</label>
 
       <div className="admin-search-row">
         <input
@@ -75,6 +80,7 @@ export default function PlaceSearch({ onSelect, disabled = false }) {
             setError("");
             setSearched(false);
             setLoading(false);
+            onQueryChange?.();
           }}
           onKeyDown={(event) => {
             if (event.key === "Enter") {

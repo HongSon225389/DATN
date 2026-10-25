@@ -23,6 +23,10 @@ export default function AdminNavbar() {
           Tạo điểm ngập
         </NavLink>
 
+        <NavLink to="/admin/routing-avoidances" className={linkClass}>
+          Vùng tránh
+        </NavLink>
+
         <NavLink to="/admin/flood-reports" className={linkClass}>
           Duyệt báo cáo
         </NavLink>
