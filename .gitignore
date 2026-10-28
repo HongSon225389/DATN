@@ -28,3 +28,8 @@ server/tmp/
 
 # Dữ liệu kiểm tra trực quan trên máy
 client/public/routing-check/
+
+/data/osm-survey/
+/data/osm-survey-test/
+__pycache__/
+*.pyc

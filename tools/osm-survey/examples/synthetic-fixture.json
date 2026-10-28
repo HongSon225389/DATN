@@ -1,0 +1,25 @@
+{
+  "version": 0.6,
+  "generator": "SYNTHETIC_TEST_FIXTURE_NOT_AN_OSM_DOWNLOAD",
+  "elements": [
+    {"type":"node","id":1,"lat":21.001,"lon":105.821},
+    {"type":"node","id":2,"lat":21.002,"lon":105.822,"tags":{"barrier":"gate","foot":"yes"}},
+    {"type":"node","id":3,"lat":21.003,"lon":105.823},
+    {"type":"node","id":4,"lat":21.004,"lon":105.824},
+    {"type":"node","id":5,"lat":21.005,"lon":105.825},
+    {"type":"node","id":6,"lat":21.006,"lon":105.826},
+    {"type":"node","id":7,"lat":21.007,"lon":105.827},
+    {"type":"node","id":8,"lat":22.001,"lon":106.821},
+    {"type":"node","id":9,"lat":22.002,"lon":106.822},
+    {"type":"way","id":101,"nodes":[1,2],"tags":{"highway":"residential","name":"Đường thử, không có thực","oneway":"yes","maxspeed":"30","motorcycle":"yes"}},
+    {"type":"way","id":102,"nodes":[2,3],"tags":{"highway":"service","maxspeed":"20 mph","access":"private"}},
+    {"type":"way","id":103,"nodes":[3,4],"tags":{"highway":"footway","foot":"yes","motor_vehicle":"no","maxspeed":"walk"}},
+    {"type":"way","id":104,"nodes":[4,5],"tags":{"highway":"residential","oneway":"reversible","maxspeed:conditional":"30 @ (wet)"}},
+    {"type":"way","id":105,"nodes":[5,999],"tags":{"highway":"residential","name":"Thiếu nút nhân tạo"}},
+    {"type":"way","id":106,"nodes":[5,6,7,5],"tags":{"highway":"pedestrian","area":"yes"}},
+    {"type":"way","id":107,"nodes":[8,9],"tags":{"highway":"service","maxspeed":"50"}},
+    {"type":"relation","id":201,"members":[{"type":"way","ref":101,"role":"from"},{"type":"node","ref":2,"role":"via"},{"type":"way","ref":102,"role":"to"}],"tags":{"type":"restriction","restriction":"no_right_turn","except":"foot"}},
+    {"type":"relation","id":202,"members":[{"type":"way","ref":102,"role":"from"},{"type":"way","ref":103,"role":"via"},{"type":"way","ref":104,"role":"to"}],"tags":{"type":"restriction","restriction:conditional":"no_left_turn @ (Mo-Fr 07:00-09:00)"}},
+    {"type":"relation","id":203,"members":[{"type":"way","ref":104,"role":"from"},{"type":"node","ref":5,"role":"via"},{"type":"way","ref":888,"role":"to"}],"tags":{"type":"restriction","restriction":"only_straight_on"}}
+  ]
+}
