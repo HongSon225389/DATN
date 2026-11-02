@@ -1,0 +1,123 @@
+{
+  "version": "hanoi-barrier-speed-0.2.0",
+  "assumption_notice": "Research parameters, not verified law, measured traffic or certified vehicle clearance",
+  "vehicles": {
+    "car": {
+      "width_m": 1.8,
+      "height_m": 1.6,
+      "actual_weight_t": 2.5,
+      "max_axle_load_t": null,
+      "gross_weight_rating_t": null
+    },
+    "motorcycle": {
+      "width_m": 0.8,
+      "height_m": 1.5,
+      "actual_weight_t": 0.35,
+      "max_axle_load_t": null,
+      "gross_weight_rating_t": null
+    },
+    "walking": {
+      "width_m": null,
+      "height_m": null,
+      "actual_weight_t": null,
+      "max_axle_load_t": null,
+      "gross_weight_rating_t": null
+    }
+  },
+  "estimated_kmh": {
+    "primary": [
+      30,
+      30,
+      4.5
+    ],
+    "secondary": [
+      25,
+      25,
+      4.5
+    ],
+    "tertiary": [
+      22,
+      22,
+      4.5
+    ],
+    "unclassified": [
+      18,
+      20,
+      4.5
+    ],
+    "residential": [
+      15,
+      18,
+      4.5
+    ],
+    "living_street": [
+      10,
+      12,
+      4
+    ],
+    "service": [
+      10,
+      12,
+      4
+    ],
+    "primary_link": [
+      20,
+      20,
+      4
+    ],
+    "secondary_link": [
+      18,
+      18,
+      4
+    ],
+    "tertiary_link": [
+      15,
+      15,
+      4
+    ],
+    "footway": [
+      null,
+      null,
+      4.5
+    ],
+    "pedestrian": [
+      null,
+      null,
+      4
+    ],
+    "path": [
+      null,
+      null,
+      3.5
+    ],
+    "steps": [
+      null,
+      null,
+      2
+    ],
+    "corridor": [
+      null,
+      null,
+      3.5
+    ],
+    "cycleway": [
+      null,
+      null,
+      4
+    ],
+    "track": [
+      null,
+      null,
+      3
+    ]
+  },
+  "sources": [
+    "https://wiki.openstreetmap.org/wiki/Key:barrier",
+    "https://wiki.openstreetmap.org/wiki/Key:locked",
+    "https://wiki.openstreetmap.org/wiki/Key:maxspeed",
+    "https://wiki.openstreetmap.org/wiki/Key:maxwidth:physical",
+    "https://wiki.openstreetmap.org/wiki/Key:maxweight",
+    "https://wiki.openstreetmap.org/wiki/Key:maxaxleload"
+  ],
+  "mass_assumption_notice": "Loaded actual mass research assumptions: car 2.5 t; motorcycle including rider/luggage 0.35 t. Not inferred from width, not certified vehicle specifications. Axle/rated mass unknown unless configured."
+}

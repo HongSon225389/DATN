@@ -1,0 +1,893 @@
+{
+  "state": "no_route",
+  "baseline": {
+    "router_version": "hanoi-dijkstra-experiment-0.2.0",
+    "graph_version": "graph-032aff9c6fde9d9e",
+    "profile": "car",
+    "weight": "distance",
+    "mode": "diagnostic",
+    "evaluated_at": "2026-10-29T08:00:00+07:00",
+    "coverage_complete": false,
+    "unsupported_shape_barrier_count": 0,
+    "unlocated_pending_relations": [
+      9859076,
+      9887803,
+      9890814,
+      11149314,
+      16261490,
+      16261491,
+      16748507,
+      16748508,
+      17096522,
+      17646494,
+      17646495,
+      17646496,
+      17896280,
+      21042852,
+      21042854,
+      21716103
+    ],
+    "warnings": [
+      "Research route on frozen graph; not a verified legal/safe route",
+      "Diagnostic mode: global unlocated restrictions are NOT proven irrelevant; local pending transitions still blocked",
+      "Nearest eligible segment projection; no automatic reachable-road fallback",
+      "Click-to-road access is unverified and excluded from route cost; inspect the selected road and side",
+      "No live traffic/signals; flood closure coverage is incomplete"
+    ],
+    "requested_start": [
+      105.81741955,
+      20.99094075
+    ],
+    "requested_end": [
+      105.81761829999999,
+      20.9900603
+    ],
+    "snap_limit_m": 100,
+    "state": "found",
+    "route": {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            105.81741955,
+            20.99094075
+          ],
+          [
+            105.8174559,
+            20.990777
+          ],
+          [
+            105.8175758,
+            20.9902733
+          ],
+          [
+            105.81761829999999,
+            20.9900603
+          ]
+        ]
+      },
+      "properties": {
+        "mode": "diagnostic",
+        "coverage_complete": false,
+        "research_only": true
+      }
+    },
+    "snapped_start": {
+      "edge_id": "335384251:4:backward",
+      "way_id": 335384251,
+      "segment_index": 4,
+      "name": "Phố Bùi Xương Trạch",
+      "highway": "tertiary",
+      "position": [
+        105.81741955,
+        20.99094075
+      ],
+      "offset_m": 0.0,
+      "directions": [
+        "335384251:4:backward",
+        "335384251:4:forward"
+      ],
+      "graph_node": "@start",
+      "osm_node_id": null,
+      "fraction": 0.5
+    },
+    "snapped_end": {
+      "edge_id": "335384251:6:backward",
+      "way_id": 335384251,
+      "segment_index": 6,
+      "name": "Phố Bùi Xương Trạch",
+      "highway": "tertiary",
+      "position": [
+        105.81761829999999,
+        20.9900603
+      ],
+      "offset_m": 0.0,
+      "directions": [
+        "335384251:6:backward",
+        "335384251:6:forward"
+      ],
+      "graph_node": "@end",
+      "osm_node_id": null,
+      "fraction": 0.5000000000028036
+    },
+    "expanded_states": 24,
+    "discovered_states": 38,
+    "rejections": {},
+    "search_seconds": 0.0006188190000102622,
+    "edge_ids": [
+      "@start:335384251:4:forward",
+      "335384251:5:forward",
+      "@end:335384251:6:forward"
+    ],
+    "length_m": 100.06263864597743,
+    "base_time_seconds": 16.373886323887216,
+    "total_cost": 100.06263864597743,
+    "cost_unit": "m",
+    "source_assumptions": {
+      "speed_assumed": true,
+      "missing_osm_speed_limits": 3
+    },
+    "attachment_method": "edge_projection",
+    "start_candidates": [
+      {
+        "edge_id": "335384251:4:backward",
+        "way_id": 335384251,
+        "segment_index": 4,
+        "name": "Phố Bùi Xương Trạch",
+        "highway": "tertiary",
+        "position": [
+          105.81741955,
+          20.99094075
+        ],
+        "offset_m": 0.0,
+        "directions": [
+          "335384251:4:backward",
+          "335384251:4:forward"
+        ]
+      },
+      {
+        "edge_id": "324549025:5:backward",
+        "way_id": 324549025,
+        "segment_index": 5,
+        "name": "Ngõ 54 Phố Bùi Xương Trạch",
+        "highway": "service",
+        "position": [
+          105.81741139018408,
+          20.990778956734495
+        ],
+        "offset_m": 18.010548107882517,
+        "directions": [
+          "324549025:5:backward",
+          "324549025:5:forward"
+        ]
+      },
+      {
+        "edge_id": "335384251:3:backward",
+        "way_id": 335384251,
+        "segment_index": 3,
+        "name": "Phố Bùi Xương Trạch",
+        "highway": "tertiary",
+        "position": [
+          105.8173832,
+          20.9911045
+        ],
+        "offset_m": 18.59513875408611,
+        "directions": [
+          "335384251:3:backward",
+          "335384251:3:forward"
+        ]
+      },
+      {
+        "edge_id": "335384251:5:backward",
+        "way_id": 335384251,
+        "segment_index": 5,
+        "name": "Phố Bùi Xương Trạch",
+        "highway": "tertiary",
+        "position": [
+          105.8174559,
+          20.990777
+        ],
+        "offset_m": 18.59513959387001,
+        "directions": [
+          "335384251:5:backward",
+          "335384251:5:forward"
+        ]
+      },
+      {
+        "edge_id": "1434617040:0:backward",
+        "way_id": 1434617040,
+        "segment_index": 0,
+        "name": "Ngách 54/1 Phố Bùi Xương Trạch",
+        "highway": "service",
+        "position": [
+          105.8172671,
+          20.9907853
+        ],
+        "offset_m": 23.43643030731386,
+        "directions": [
+          "1434617040:0:backward",
+          "1434617040:0:forward"
+        ]
+      },
+      {
+        "edge_id": "324549025:4:backward",
+        "way_id": 324549025,
+        "segment_index": 4,
+        "name": "Ngõ 54 Phố Bùi Xương Trạch",
+        "highway": "service",
+        "position": [
+          105.8172671,
+          20.9907853
+        ],
+        "offset_m": 23.43643030731386,
+        "directions": [
+          "324549025:4:backward",
+          "324549025:4:forward"
+        ]
+      },
+      {
+        "edge_id": "1434617040:1:backward",
+        "way_id": 1434617040,
+        "segment_index": 1,
+        "name": "Ngách 54/1 Phố Bùi Xương Trạch",
+        "highway": "service",
+        "position": [
+          105.8172779,
+          20.9906902
+        ],
+        "offset_m": 31.50282669628754,
+        "directions": [
+          "1434617040:1:backward",
+          "1434617040:1:forward"
+        ]
+      },
+      {
+        "edge_id": "1010451122:0:backward",
+        "way_id": 1010451122,
+        "segment_index": 0,
+        "name": "Ngách 6 Ngõ 54 Bùi Xương Trạch",
+        "highway": "service",
+        "position": [
+          105.8171211,
+          20.9907918
+        ],
+        "offset_m": 35.13283316160915,
+        "directions": [
+          "1010451122:0:backward",
+          "1010451122:0:forward"
+        ]
+      }
+    ],
+    "end_candidates": [
+      {
+        "edge_id": "335384251:6:backward",
+        "way_id": 335384251,
+        "segment_index": 6,
+        "name": "Phố Bùi Xương Trạch",
+        "highway": "tertiary",
+        "position": [
+          105.81761829999999,
+          20.9900603
+        ],
+        "offset_m": 0.0,
+        "directions": [
+          "335384251:6:backward",
+          "335384251:6:forward"
+        ]
+      },
+      {
+        "edge_id": "1434617038:1:backward",
+        "way_id": 1434617038,
+        "segment_index": 1,
+        "name": "Ngách 108/2 Phố Bùi Xương Trạch",
+        "highway": "service",
+        "position": [
+          105.81741443624904,
+          20.990019562791147
+        ],
+        "offset_m": 21.643738009949686,
+        "directions": [
+          "1434617038:1:backward",
+          "1434617038:1:forward"
+        ]
+      },
+      {
+        "edge_id": "335384251:5:backward",
+        "way_id": 335384251,
+        "segment_index": 5,
+        "name": "Phố Bùi Xương Trạch",
+        "highway": "tertiary",
+        "position": [
+          105.8175758,
+          20.9902733
+        ],
+        "offset_m": 24.09202119949134,
+        "directions": [
+          "335384251:5:backward",
+          "335384251:5:forward"
+        ]
+      },
+      {
+        "edge_id": "684721113:0:backward",
+        "way_id": 684721113,
+        "segment_index": 0,
+        "name": "Ngõ 77 Phố Bùi Xương Trạch",
+        "highway": "service",
+        "position": [
+          105.8175758,
+          20.9902733
+        ],
+        "offset_m": 24.09202119949134,
+        "directions": [
+          "684721113:0:backward",
+          "684721113:0:forward"
+        ]
+      },
+      {
+        "edge_id": "335384251:7:backward",
+        "way_id": 335384251,
+        "segment_index": 7,
+        "name": "Phố Bùi Xương Trạch",
+        "highway": "tertiary",
+        "position": [
+          105.8176608,
+          20.9898473
+        ],
+        "offset_m": 24.092022352275556,
+        "directions": [
+          "335384251:7:backward",
+          "335384251:7:forward"
+        ]
+      },
+      {
+        "edge_id": "1434617038:0:backward",
+        "way_id": 1434617038,
+        "segment_index": 0,
+        "name": "Ngách 108/2 Phố Bùi Xương Trạch",
+        "highway": "service",
+        "position": [
+          105.8173863,
+          20.9901423
+        ],
+        "offset_m": 25.75354264250593,
+        "directions": [
+          "1434617038:0:backward",
+          "1434617038:0:forward"
+        ]
+      },
+      {
+        "edge_id": "684721113:1:backward",
+        "way_id": 684721113,
+        "segment_index": 1,
+        "name": "Ngõ 77 Phố Bùi Xương Trạch",
+        "highway": "service",
+        "position": [
+          105.8179585,
+          20.9903402
+        ],
+        "offset_m": 47.07501114391869,
+        "directions": [
+          "684721113:1:backward",
+          "684721113:1:forward"
+        ]
+      },
+      {
+        "edge_id": "1434617040:1:backward",
+        "way_id": 1434617040,
+        "segment_index": 1,
+        "name": "Ngách 54/1 Phố Bùi Xương Trạch",
+        "highway": "service",
+        "position": [
+          105.8173284,
+          20.9904267
+        ],
+        "offset_m": 50.652652253994056,
+        "directions": [
+          "1434617040:1:backward",
+          "1434617040:1:forward"
+        ]
+      }
+    ],
+    "partial_edges": {
+      "@start:335384251:4:forward": {
+        "source_edge_id": "335384251:4:forward",
+        "from_fraction": 0.5,
+        "to_fraction": 1
+      },
+      "@end:335384251:6:forward": {
+        "source_edge_id": "335384251:6:forward",
+        "from_fraction": 0,
+        "to_fraction": 0.49999999999719624
+      }
+    }
+  },
+  "avoided": {
+    "router_version": "hanoi-dijkstra-experiment-0.2.0",
+    "graph_version": "graph-032aff9c6fde9d9e",
+    "profile": "car",
+    "weight": "distance",
+    "mode": "diagnostic",
+    "evaluated_at": "2026-10-29T08:00:00+07:00",
+    "coverage_complete": false,
+    "unsupported_shape_barrier_count": 0,
+    "unlocated_pending_relations": [
+      9859076,
+      9887803,
+      9890814,
+      11149314,
+      16261490,
+      16261491,
+      16748507,
+      16748508,
+      17096522,
+      17646494,
+      17646495,
+      17646496,
+      17896280,
+      21042852,
+      21042854,
+      21716103
+    ],
+    "warnings": [
+      "Research route on frozen graph; not a verified legal/safe route",
+      "Diagnostic mode: global unlocated restrictions are NOT proven irrelevant; local pending transitions still blocked",
+      "Nearest eligible segment projection; no automatic reachable-road fallback",
+      "Click-to-road access is unverified and excluded from route cost; inspect the selected road and side",
+      "No live traffic/signals; flood closure coverage is incomplete"
+    ],
+    "requested_start": [
+      105.81741955,
+      20.99094075
+    ],
+    "requested_end": [
+      105.81761829999999,
+      20.9900603
+    ],
+    "snap_limit_m": 100,
+    "state": "no_route",
+    "route": null,
+    "snapped_start": {
+      "edge_id": "335384251:4:backward",
+      "way_id": 335384251,
+      "segment_index": 4,
+      "name": "Phố Bùi Xương Trạch",
+      "highway": "tertiary",
+      "position": [
+        105.81741955,
+        20.99094075
+      ],
+      "offset_m": 0.0,
+      "directions": [
+        "335384251:4:backward",
+        "335384251:4:forward"
+      ],
+      "graph_node": "@start",
+      "osm_node_id": null,
+      "fraction": 0.5
+    },
+    "snapped_end": {
+      "edge_id": "335384251:6:backward",
+      "way_id": 335384251,
+      "segment_index": 6,
+      "name": "Phố Bùi Xương Trạch",
+      "highway": "tertiary",
+      "position": [
+        105.81761829999999,
+        20.9900603
+      ],
+      "offset_m": 0.0,
+      "directions": [
+        "335384251:6:backward",
+        "335384251:6:forward"
+      ],
+      "graph_node": "@end",
+      "osm_node_id": null,
+      "fraction": 0.5000000000028036
+    },
+    "no_route_reason": "different_weak_components_after_graph_filters",
+    "expanded_states": 0,
+    "discovered_states": 0,
+    "rejections": {},
+    "attachment_method": "edge_projection",
+    "start_candidates": [
+      {
+        "edge_id": "335384251:4:backward",
+        "way_id": 335384251,
+        "segment_index": 4,
+        "name": "Phố Bùi Xương Trạch",
+        "highway": "tertiary",
+        "position": [
+          105.81741955,
+          20.99094075
+        ],
+        "offset_m": 0.0,
+        "directions": [
+          "335384251:4:backward",
+          "335384251:4:forward"
+        ]
+      },
+      {
+        "edge_id": "324549025:5:backward",
+        "way_id": 324549025,
+        "segment_index": 5,
+        "name": "Ngõ 54 Phố Bùi Xương Trạch",
+        "highway": "service",
+        "position": [
+          105.81741139018408,
+          20.990778956734495
+        ],
+        "offset_m": 18.010548107882517,
+        "directions": [
+          "324549025:5:backward",
+          "324549025:5:forward"
+        ]
+      },
+      {
+        "edge_id": "335384251:3:backward",
+        "way_id": 335384251,
+        "segment_index": 3,
+        "name": "Phố Bùi Xương Trạch",
+        "highway": "tertiary",
+        "position": [
+          105.8173832,
+          20.9911045
+        ],
+        "offset_m": 18.59513875408611,
+        "directions": [
+          "335384251:3:backward",
+          "335384251:3:forward"
+        ]
+      },
+      {
+        "edge_id": "335384251:5:backward",
+        "way_id": 335384251,
+        "segment_index": 5,
+        "name": "Phố Bùi Xương Trạch",
+        "highway": "tertiary",
+        "position": [
+          105.8174559,
+          20.990777
+        ],
+        "offset_m": 18.59513959387001,
+        "directions": [
+          "335384251:5:backward",
+          "335384251:5:forward"
+        ]
+      },
+      {
+        "edge_id": "1434617040:0:backward",
+        "way_id": 1434617040,
+        "segment_index": 0,
+        "name": "Ngách 54/1 Phố Bùi Xương Trạch",
+        "highway": "service",
+        "position": [
+          105.8172671,
+          20.9907853
+        ],
+        "offset_m": 23.43643030731386,
+        "directions": [
+          "1434617040:0:backward",
+          "1434617040:0:forward"
+        ]
+      },
+      {
+        "edge_id": "324549025:4:backward",
+        "way_id": 324549025,
+        "segment_index": 4,
+        "name": "Ngõ 54 Phố Bùi Xương Trạch",
+        "highway": "service",
+        "position": [
+          105.8172671,
+          20.9907853
+        ],
+        "offset_m": 23.43643030731386,
+        "directions": [
+          "324549025:4:backward",
+          "324549025:4:forward"
+        ]
+      },
+      {
+        "edge_id": "1434617040:1:backward",
+        "way_id": 1434617040,
+        "segment_index": 1,
+        "name": "Ngách 54/1 Phố Bùi Xương Trạch",
+        "highway": "service",
+        "position": [
+          105.8172779,
+          20.9906902
+        ],
+        "offset_m": 31.50282669628754,
+        "directions": [
+          "1434617040:1:backward",
+          "1434617040:1:forward"
+        ]
+      },
+      {
+        "edge_id": "1010451122:0:backward",
+        "way_id": 1010451122,
+        "segment_index": 0,
+        "name": "Ngách 6 Ngõ 54 Bùi Xương Trạch",
+        "highway": "service",
+        "position": [
+          105.8171211,
+          20.9907918
+        ],
+        "offset_m": 35.13283316160915,
+        "directions": [
+          "1010451122:0:backward",
+          "1010451122:0:forward"
+        ]
+      }
+    ],
+    "end_candidates": [
+      {
+        "edge_id": "335384251:6:backward",
+        "way_id": 335384251,
+        "segment_index": 6,
+        "name": "Phố Bùi Xương Trạch",
+        "highway": "tertiary",
+        "position": [
+          105.81761829999999,
+          20.9900603
+        ],
+        "offset_m": 0.0,
+        "directions": [
+          "335384251:6:backward",
+          "335384251:6:forward"
+        ]
+      },
+      {
+        "edge_id": "1434617038:1:backward",
+        "way_id": 1434617038,
+        "segment_index": 1,
+        "name": "Ngách 108/2 Phố Bùi Xương Trạch",
+        "highway": "service",
+        "position": [
+          105.81741443624904,
+          20.990019562791147
+        ],
+        "offset_m": 21.643738009949686,
+        "directions": [
+          "1434617038:1:backward",
+          "1434617038:1:forward"
+        ]
+      },
+      {
+        "edge_id": "335384251:5:backward",
+        "way_id": 335384251,
+        "segment_index": 5,
+        "name": "Phố Bùi Xương Trạch",
+        "highway": "tertiary",
+        "position": [
+          105.8175758,
+          20.9902733
+        ],
+        "offset_m": 24.09202119949134,
+        "directions": [
+          "335384251:5:backward",
+          "335384251:5:forward"
+        ]
+      },
+      {
+        "edge_id": "684721113:0:backward",
+        "way_id": 684721113,
+        "segment_index": 0,
+        "name": "Ngõ 77 Phố Bùi Xương Trạch",
+        "highway": "service",
+        "position": [
+          105.8175758,
+          20.9902733
+        ],
+        "offset_m": 24.09202119949134,
+        "directions": [
+          "684721113:0:backward",
+          "684721113:0:forward"
+        ]
+      },
+      {
+        "edge_id": "335384251:7:backward",
+        "way_id": 335384251,
+        "segment_index": 7,
+        "name": "Phố Bùi Xương Trạch",
+        "highway": "tertiary",
+        "position": [
+          105.8176608,
+          20.9898473
+        ],
+        "offset_m": 24.092022352275556,
+        "directions": [
+          "335384251:7:backward",
+          "335384251:7:forward"
+        ]
+      },
+      {
+        "edge_id": "1434617038:0:backward",
+        "way_id": 1434617038,
+        "segment_index": 0,
+        "name": "Ngách 108/2 Phố Bùi Xương Trạch",
+        "highway": "service",
+        "position": [
+          105.8173863,
+          20.9901423
+        ],
+        "offset_m": 25.75354264250593,
+        "directions": [
+          "1434617038:0:backward",
+          "1434617038:0:forward"
+        ]
+      },
+      {
+        "edge_id": "684721113:1:backward",
+        "way_id": 684721113,
+        "segment_index": 1,
+        "name": "Ngõ 77 Phố Bùi Xương Trạch",
+        "highway": "service",
+        "position": [
+          105.8179585,
+          20.9903402
+        ],
+        "offset_m": 47.07501114391869,
+        "directions": [
+          "684721113:1:backward",
+          "684721113:1:forward"
+        ]
+      },
+      {
+        "edge_id": "1434617040:1:backward",
+        "way_id": 1434617040,
+        "segment_index": 1,
+        "name": "Ngách 54/1 Phố Bùi Xương Trạch",
+        "highway": "service",
+        "position": [
+          105.8173284,
+          20.9904267
+        ],
+        "offset_m": 50.652652253994056,
+        "directions": [
+          "1434617040:1:backward",
+          "1434617040:1:forward"
+        ]
+      }
+    ],
+    "partial_edges": {}
+  },
+  "overlay": {
+    "overlay_version": "edge-closure-scenario-0.1",
+    "overlay_hash": "690298e1e6582037879f80fd5b0503f91d838e6b33b2eda5f186a51ccb226719",
+    "data_mode": "synthetic",
+    "overlay_kind": "explicit_edge_closure",
+    "scenario_id": "TEST-HIST-03-TWO-EDGES",
+    "description": "Kịch bản chặn hai chiều của đoạn do người nghiên cứu chọn; không xác nhận phạm vi ngập lịch sử",
+    "evaluated_at": "2026-10-29T08:00:00+07:00",
+    "profile": "car",
+    "applicable_profile": "car",
+    "graph_version": "graph-032aff9c6fde9d9e",
+    "blocked_edges": {
+      "335384251:5:forward": [
+        "TEST-HIST-03-TWO-EDGES"
+      ],
+      "335384251:5:backward": [
+        "TEST-HIST-03-TWO-EDGES"
+      ]
+    },
+    "decisions": [
+      {
+        "decision": "synthetic_explicit_closure",
+        "matched_directed_edges": 2
+      }
+    ],
+    "active_regions": {
+      "type": "FeatureCollection",
+      "features": []
+    },
+    "blocked_features": {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                105.8174559,
+                20.990777
+              ],
+              [
+                105.8175758,
+                20.9902733
+              ]
+            ]
+          },
+          "properties": {
+            "way_id": 335384251,
+            "segment_index": 5,
+            "direction": "forward",
+            "from_node": 3312553998,
+            "to_node": 317816872,
+            "edge_id": "335384251:5:forward",
+            "graph_from": "n3312553998",
+            "graph_to": "n317816872",
+            "length_m": 57.37547769632542,
+            "base_time_seconds": 9.388714532125977,
+            "effective_kmh": 22,
+            "osm_limit_kmh": null,
+            "limit_status": "missing",
+            "estimated_free_kmh": 22,
+            "speed_assumed": true,
+            "access_key": "highway_default",
+            "access_warning": "Chưa được xác minh ngoài thực tế; không bảo đảm khả năng đi qua",
+            "oneway_key": "missing_oneway_default",
+            "oneway_value": "",
+            "name": "Phố Bùi Xương Trạch",
+            "highway": "tertiary",
+            "bridge": "",
+            "tunnel": "",
+            "layer": ""
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                105.8175758,
+                20.9902733
+              ],
+              [
+                105.8174559,
+                20.990777
+              ]
+            ]
+          },
+          "properties": {
+            "way_id": 335384251,
+            "segment_index": 5,
+            "direction": "backward",
+            "from_node": 317816872,
+            "to_node": 3312553998,
+            "edge_id": "335384251:5:backward",
+            "graph_from": "n317816872",
+            "graph_to": "n3312553998",
+            "length_m": 57.37547769632542,
+            "base_time_seconds": 9.388714532125977,
+            "effective_kmh": 22,
+            "osm_limit_kmh": null,
+            "limit_status": "missing",
+            "estimated_free_kmh": 22,
+            "speed_assumed": true,
+            "access_key": "highway_default",
+            "access_warning": "Chưa được xác minh ngoài thực tế; không bảo đảm khả năng đi qua",
+            "oneway_key": "missing_oneway_default",
+            "oneway_value": "",
+            "name": "Phố Bùi Xương Trạch",
+            "highway": "tertiary",
+            "bridge": "",
+            "tunnel": "",
+            "layer": ""
+          }
+        }
+      ]
+    },
+    "test_pair": {
+      "start": [
+        105.81741955,
+        20.99094075
+      ],
+      "end": [
+        105.81761829999999,
+        20.9900603
+      ],
+      "start_edge": "335384251:4:forward",
+      "end_edge": "335384251:6:forward",
+      "note": "Adjacent segment midpoints, synthetic test pair; not verified access points"
+    },
+    "warnings": [
+      "Selected boundary is a research assumption, not a verified flood footprint",
+      "Frozen graph evaluation time is not a claimed flood observation or recession time",
+      "Original draft and source graph remain unchanged"
+    ]
+  },
+  "distance_delta_m": null
+}

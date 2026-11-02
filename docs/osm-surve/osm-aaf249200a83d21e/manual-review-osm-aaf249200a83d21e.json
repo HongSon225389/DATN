@@ -1,0 +1,24 @@
+{
+  "dataset_version": "osm-aaf249200a83d21e",
+  "exported_at": "2026-10-28T15:27:31.155Z",
+  "reviews": [
+    {
+      "osm_type": "relation",
+      "osm_id": 9774377,
+      "test_case": "Kiểm tra dữ liệu hạn chế chuyển hướng",
+      "evidence_url": "",
+      "observed_at": "",
+      "conclusion": "chưa xác định",
+      "note": "Đã xem vị trí và các thành viên from/via/to trong dữ liệu OSM. Chưa có nguồn độc lập để xác nhận hạn chế chuyển hướng ngoài thực tế"
+    },
+    {
+      "osm_type": "relation",
+      "osm_id": 9843239,
+      "test_case": "Đối chiếu dữ liệu tải với quan hệ OSM gốc",
+      "evidence_url": "https://www.openstreetmap.org/relation/9843239",
+      "observed_at": "",
+      "conclusion": "đúng",
+      "note": "Đã đối chiếu restriction=no_left_turn và các thành viên from/via/to với trang OSM. Quan hệ có ngoại lệ bicycle;moped;motorcar;motorcycle. Dữ liệu hiển thị khớp nguồn OSM; chưa xác minh quy định ngoài thực tế."
+    }
+  ]
+}

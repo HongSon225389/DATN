@@ -1,0 +1,57 @@
+{
+  "type": "FeatureCollection",
+  "data_mode": "synthetic",
+  "description": "Kịch bản kiểm tra giả lập tại Cầu Mới. Không phải báo cáo ngập thực tế.",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              105.81816195,
+              21.0014095
+            ],
+            [
+              105.81824195,
+              21.0014095
+            ],
+            [
+              105.81824195,
+              21.001489499999998
+            ],
+            [
+              105.81816195,
+              21.001489499999998
+            ],
+            [
+              105.81816195,
+              21.0014095
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "event_id": "SYNTHETIC-CAU-MOI-01",
+        "review_status": "approved",
+        "published": true,
+        "status": "flooded",
+        "action": "block",
+        "profiles": [
+          "car",
+          "motorcycle",
+          "walking"
+        ],
+        "observed_at": "2026-10-29T07:00:00+07:00",
+        "valid_from": "2026-10-29T07:00:00+07:00",
+        "valid_until": "2026-10-29T09:00:00+07:00",
+        "depth_cm": null,
+        "source_url": "",
+        "source_title": "Kịch bản kiểm thử tổng hợp, không có quan sát thực địa",
+        "reviewer": "test_fixture",
+        "notes": "Chặn toàn bộ cạnh giao polygon, kể cả cầu ở tầng khác; chỉ nhằm kiểm thử."
+      }
+    }
+  ]
+}

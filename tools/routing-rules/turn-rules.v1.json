@@ -1,0 +1,23 @@
+{
+  "version": "hanoi-turn-0.1.0",
+  "scope": "static via-node restrictions normalized to raw adjacent OSM segments; no graph yet",
+  "profile_keys": {
+    "car": ["restriction:motorcar", "restriction:motor_vehicle", "restriction:vehicle", "restriction"],
+    "motorcycle": ["restriction:motorcycle", "restriction:motor_vehicle", "restriction:vehicle", "restriction"],
+    "walking": ["restriction:foot"]
+  },
+  "exception_tokens": {
+    "car": ["motorcar", "motor_vehicle", "vehicle"],
+    "motorcycle": ["motorcycle", "motor_vehicle", "vehicle"],
+    "walking": ["foot"]
+  },
+  "known_exception_tokens": ["motorcar", "motorcycle", "motor_vehicle", "vehicle", "foot", "bicycle", "moped", "mofa", "bus", "psv", "taxi", "hgv", "goods", "emergency", "agricultural", "forestry", "horse", "caravan", "hazmat", "delivery", "electric_vehicle", "school_bus", "tourist_bus", "atv", "snowmobile", "scooter"],
+  "no_values": ["no_left_turn", "no_right_turn", "no_straight_on", "no_u_turn"],
+  "only_values": ["only_left_turn", "only_right_turn", "only_straight_on", "only_u_turn"],
+  "deferred_values": ["no_entry", "no_exit"],
+  "sources": [
+    "https://wiki.openstreetmap.org/wiki/Relation:restriction",
+    "https://wiki.openstreetmap.org/wiki/Tag:restriction=no_u_turn",
+    "https://wiki.openstreetmap.org/wiki/Conditional_restrictions"
+  ]
+}

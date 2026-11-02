@@ -1,0 +1,37 @@
+{
+  "schema_version": "historical-spatial-review-0.1",
+  "graph_version": "graph-032aff9c6fde9d9e",
+  "dataset_version": "osm-aaf249200a83d21e",
+  "raw_sha256": "aaf249200a83d21ec9074219ee0c3694179c82fdad0f1db16c5656bd93b91634",
+  "graph_evaluated_at": "2026-10-29T08:00:00+07:00",
+  "event_id": "HIST-02",
+  "event_date": "2025-09-30",
+  "profile": "car",
+  "source": {
+    "source_id": "TTXVN-20250930",
+    "publisher": "Báo Tin tức và Dân tộc / TTXVN",
+    "title": "Hà Nội: 82 điểm ngập úng, huy động tối đa lực lượng tiêu thoát nước",
+    "url": "https://baotintuc.vn/ha-noi-82-diem-ngap-ung-huy-dong-toi-da-luc-luong-tieu-thoat-nuoc-n20250930193603354.htm",
+    "published_at": "2025-09-30T19:38:00+07:00",
+    "accessed_date": "2026-10-29"
+  },
+  "landmark": [
+    105.83827347007545,
+    21.028391385499628
+  ],
+  "landmark_source_url": "",
+  "footprint_evidence_url": "",
+  "reviewer": "Lê Hồng Sơn",
+  "notes": "Đã đánh dấu sơ bộ khu vực trường. Chưa có nguồn đối chiếu vị trí cổng và chưa xác định hai đầu đoạn ngập. Chưa chọn cạnh, chưa đủ căn cứ áp dụng định tuyến.",
+  "selected_edges": [],
+  "review_status": "draft",
+  "applied_to_routing": false,
+  "valid_from": null,
+  "valid_until": null,
+  "updated_at": "2026-10-29T13:39:20.900Z",
+  "limitations": [
+    "Selected segments are review proposals, not a verified flood footprint",
+    "Historical 2025 event on 2026 road snapshot; no claim about legal routing in 2025",
+    "No closure publication or routing changes"
+  ]
+}

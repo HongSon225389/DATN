@@ -1,0 +1,44 @@
+{
+  "version": "hanoi-access-0.1.0",
+  "status": "research_prototype_not_verified_traffic_law",
+  "scope": "way-level access only; public through-routing eligibility, not full routing permission",
+  "sources": [
+    "https://wiki.openstreetmap.org/wiki/Key:access",
+    "https://wiki.openstreetmap.org/wiki/Key:motorcycle",
+    "https://wiki.openstreetmap.org/wiki/Conditional_restrictions",
+    "https://wiki.openstreetmap.org/wiki/OSM_tags_for_routing/Access_restrictions"
+  ],
+  "profiles": {
+    "car": {"name": "Ô tô con", "access_keys": ["motorcar", "motor_vehicle", "vehicle", "access"]},
+    "motorcycle": {"name": "Xe máy (OSM motorcycle)", "access_keys": ["motorcycle", "motor_vehicle", "vehicle", "access"]},
+    "walking": {"name": "Đi bộ", "access_keys": ["foot", "access"]}
+  },
+  "excluded_highways": ["construction", "proposed", "abandoned", "disused", "razed", "platform", "busway", "motorway", "motorway_link"],
+  "motorized_unsupported_highways": ["steps", "corridor"],
+  "allowed_values": ["yes", "permissive", "designated", "official", "discouraged"],
+  "forbidden_values": ["no", "use_sidepath"],
+  "restricted_values": ["private", "permit", "destination", "delivery", "customers", "agricultural", "forestry", "emergency"],
+  "default_if_unknown_highway": {"car": "unresolved", "motorcycle": "unresolved", "walking": "unresolved"},
+  "highway_defaults": {
+    "primary": {"car": "allowed", "motorcycle": "allowed", "walking": "allowed"},
+    "primary_link": {"car": "allowed", "motorcycle": "allowed", "walking": "unresolved"},
+    "secondary": {"car": "allowed", "motorcycle": "allowed", "walking": "allowed"},
+    "secondary_link": {"car": "allowed", "motorcycle": "allowed", "walking": "unresolved"},
+    "tertiary": {"car": "allowed", "motorcycle": "allowed", "walking": "allowed"},
+    "tertiary_link": {"car": "allowed", "motorcycle": "allowed", "walking": "unresolved"},
+    "unclassified": {"car": "allowed", "motorcycle": "allowed", "walking": "allowed"},
+    "residential": {"car": "allowed", "motorcycle": "allowed", "walking": "allowed"},
+    "living_street": {"car": "allowed", "motorcycle": "allowed", "walking": "allowed"},
+    "service": {"car": "allowed", "motorcycle": "allowed", "walking": "allowed"},
+    "trunk": {"car": "unresolved", "motorcycle": "unresolved", "walking": "unresolved"},
+    "trunk_link": {"car": "unresolved", "motorcycle": "unresolved", "walking": "unresolved"},
+    "footway": {"car": "forbidden", "motorcycle": "forbidden", "walking": "allowed"},
+    "pedestrian": {"car": "forbidden", "motorcycle": "forbidden", "walking": "allowed"},
+    "path": {"car": "forbidden", "motorcycle": "forbidden", "walking": "allowed"},
+    "steps": {"car": "excluded", "motorcycle": "excluded", "walking": "allowed"},
+    "corridor": {"car": "excluded", "motorcycle": "excluded", "walking": "allowed"},
+    "cycleway": {"car": "forbidden", "motorcycle": "forbidden", "walking": "unresolved"},
+    "track": {"car": "unresolved", "motorcycle": "unresolved", "walking": "allowed"},
+    "road": {"car": "unresolved", "motorcycle": "unresolved", "walking": "unresolved"}
+  }
+}

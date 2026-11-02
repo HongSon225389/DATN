@@ -1,0 +1,40 @@
+{
+  "tool_version": "1.0.0",
+  "started_at": "2026-10-28T09:43:14.132508+00:00",
+  "status": "completed",
+  "study_bbox_wsen": [
+    105.8,
+    20.99,
+    105.85,
+    21.04
+  ],
+  "download_bbox_wsen": [
+    105.78051703197029,
+    20.97181818181818,
+    105.8694829680297,
+    21.05818181818182
+  ],
+  "buffer_km": 2.0,
+  "buffer_method": "approximate rectangular geographic padding, not exact metric polygon buffer",
+  "query_sha256": "75ff0ebc9bed217e8fd76779c81bff85fac7e4dba51c1746fde47c66578796a3",
+  "download_endpoint": "https://overpass-api.de/api/interpreter",
+  "input_file": null,
+  "source": "OpenStreetMap contributors",
+  "license": "ODbL 1.0",
+  "attribution_url": "https://www.openstreetmap.org/copyright",
+  "scope_note": "raw survey only; no access/speed/turn rules evaluated; no routing graph built",
+  "coverage_note": "bbox selection uses OSM node inclusion; a crossing way with no node inside may be absent",
+  "completed_at": "2026-10-28T09:44:06.085370+00:00",
+  "raw_sha256": "aaf249200a83d21ec9074219ee0c3694179c82fdad0f1db16c5656bd93b91634",
+  "dataset_version": "osm-aaf249200a83d21e",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-28T09:42:00Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "unique_elements": 182663,
+  "issue_count": 93314,
+  "completeness_warning": false,
+  "input_coverage_verified": null,
+  "input_generator": "Overpass API 0.7.62.11 87bfad18",
+  "csv_text_policy": "formula-like external strings are prefixed with apostrophe; raw JSON unchanged"
+}

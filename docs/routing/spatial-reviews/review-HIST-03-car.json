@@ -1,0 +1,132 @@
+{
+  "schema_version": "historical-spatial-review-0.1",
+  "graph_version": "graph-032aff9c6fde9d9e",
+  "dataset_version": "osm-aaf249200a83d21e",
+  "raw_sha256": "aaf249200a83d21ec9074219ee0c3694179c82fdad0f1db16c5656bd93b91634",
+  "graph_evaluated_at": "2026-10-29T08:00:00+07:00",
+  "event_id": "HIST-03",
+  "event_date": "2025-09-30",
+  "profile": "car",
+  "source": {
+    "source_id": "TTXVN-20250930",
+    "publisher": "Báo Tin tức và Dân tộc / TTXVN",
+    "title": "Hà Nội: 82 điểm ngập úng, huy động tối đa lực lượng tiêu thoát nước",
+    "url": "https://baotintuc.vn/ha-noi-82-diem-ngap-ung-huy-dong-toi-da-luc-luong-tieu-thoat-nuoc-n20250930193603354.htm",
+    "published_at": "2025-09-30T19:38:00+07:00",
+    "accessed_date": "2026-10-29"
+  },
+  "landmark": [
+    105.81753448456996,
+    20.99053851703885
+  ],
+  "landmark_source_url": "",
+  "footprint_evidence_url": "",
+  "reviewer": "Lê Hồng Sơn",
+  "notes": "Chọn đoạn phố Bùi Xương Trạch giữa miệng ngõ 54 và ngõ 77 làm phạm vi thử nghiệm do người nghiên cứu đề xuất. Chưa xác nhận đoạn này trùng phạm vi ngập số nhà 49–93 được nguồn báo nêu",
+  "selected_edges": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            105.8175758,
+            20.9902733
+          ],
+          [
+            105.8174559,
+            20.990777
+          ]
+        ]
+      },
+      "properties": {
+        "way_id": 335384251,
+        "segment_index": 5,
+        "direction": "backward",
+        "from_node": 317816872,
+        "to_node": 3312553998,
+        "edge_id": "335384251:5:backward",
+        "graph_from": "n317816872",
+        "graph_to": "n3312553998",
+        "length_m": 57.37547769632542,
+        "base_time_seconds": 9.388714532125977,
+        "effective_kmh": 22,
+        "osm_limit_kmh": null,
+        "limit_status": "missing",
+        "estimated_free_kmh": 22,
+        "speed_assumed": true,
+        "access_key": "highway_default",
+        "access_warning": "Chưa được xác minh ngoài thực tế; không bảo đảm khả năng đi qua",
+        "oneway_key": "missing_oneway_default",
+        "oneway_value": "",
+        "name": "Phố Bùi Xương Trạch",
+        "highway": "tertiary",
+        "bridge": "",
+        "tunnel": "",
+        "layer": "",
+        "same_segment_edge_ids": [
+          "335384251:5:forward",
+          "335384251:5:backward"
+        ],
+        "osm_url": "https://www.openstreetmap.org/way/335384251"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            105.8174559,
+            20.990777
+          ],
+          [
+            105.8175758,
+            20.9902733
+          ]
+        ]
+      },
+      "properties": {
+        "way_id": 335384251,
+        "segment_index": 5,
+        "direction": "forward",
+        "from_node": 3312553998,
+        "to_node": 317816872,
+        "edge_id": "335384251:5:forward",
+        "graph_from": "n3312553998",
+        "graph_to": "n317816872",
+        "length_m": 57.37547769632542,
+        "base_time_seconds": 9.388714532125977,
+        "effective_kmh": 22,
+        "osm_limit_kmh": null,
+        "limit_status": "missing",
+        "estimated_free_kmh": 22,
+        "speed_assumed": true,
+        "access_key": "highway_default",
+        "access_warning": "Chưa được xác minh ngoài thực tế; không bảo đảm khả năng đi qua",
+        "oneway_key": "missing_oneway_default",
+        "oneway_value": "",
+        "name": "Phố Bùi Xương Trạch",
+        "highway": "tertiary",
+        "bridge": "",
+        "tunnel": "",
+        "layer": "",
+        "same_segment_edge_ids": [
+          "335384251:5:forward",
+          "335384251:5:backward"
+        ],
+        "osm_url": "https://www.openstreetmap.org/way/335384251"
+      }
+    }
+  ],
+  "review_status": "draft",
+  "applied_to_routing": false,
+  "valid_from": null,
+  "valid_until": null,
+  "updated_at": "2026-10-29T14:55:59.517Z",
+  "limitations": [
+    "Selected segments are review proposals, not a verified flood footprint",
+    "Historical 2025 event on 2026 road snapshot; no claim about legal routing in 2025",
+    "No closure publication or routing changes"
+  ]
+}

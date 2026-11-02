@@ -1,0 +1,23 @@
+{
+  "version": "hanoi-direction-0.1.0",
+  "status": "research_prototype_not_verified_traffic_law",
+  "motorized_oneway_keys": {
+    "car": ["oneway:motorcar", "oneway:motor_vehicle", "oneway:vehicle", "oneway"],
+    "motorcycle": ["oneway:motorcycle", "oneway:motor_vehicle", "oneway:vehicle", "oneway"]
+  },
+  "walking_oneway_keys": ["oneway:foot"],
+  "forward_values": ["yes", "1", "true"],
+  "both_values": ["no", "0", "false"],
+  "backward_values": ["-1"],
+  "walking_general_oneway_applies": ["steps", "via_ferrata"],
+  "walking_general_oneway_ambiguous": ["path", "footway", "corridor"],
+  "implicit_motorized_forward_junctions": ["roundabout"],
+  "implicit_motorized_forward_highways": ["motorway"],
+  "default_missing_oneway": "both_assumed",
+  "sources": [
+    "https://wiki.openstreetmap.org/wiki/Key:oneway",
+    "https://wiki.openstreetmap.org/wiki/Key:oneway:motorcycle",
+    "https://wiki.openstreetmap.org/wiki/Key:oneway:foot",
+    "https://wiki.openstreetmap.org/wiki/Forward_%26_backward,_left_%26_right"
+  ]
+}

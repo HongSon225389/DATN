@@ -1,0 +1,89 @@
+{
+  "graph_version": "graph-032aff9c6fde9d9e",
+  "dataset_version": "osm-aaf249200a83d21e",
+  "evaluated_at": "2026-10-29T08:00:00+07:00",
+  "description": "Fixed model regression cases, not independent field verification. Car/motorcycle explicitly diagnostic; walking strict.",
+  "cases": [
+    {
+      "case_id": "giai-phong-near-service",
+      "start": [
+        105.813533,
+        20.998173
+      ],
+      "end": [
+        105.841535,
+        21.005882
+      ],
+      "weight": "distance",
+      "tolerance_m": 1,
+      "expected": {
+        "car": {
+          "state": "found",
+          "length_m": 4070.0808735993764
+        },
+        "motorcycle": {
+          "state": "found",
+          "length_m": 4070.0808735993764
+        },
+        "walking": {
+          "state": "found",
+          "length_m": 3751.1558548653234
+        }
+      }
+    },
+    {
+      "case_id": "giai-phong-same-road",
+      "start": [
+        105.813533,
+        20.998173
+      ],
+      "end": [
+        105.8416,
+        21.006302
+      ],
+      "weight": "distance",
+      "tolerance_m": 1,
+      "expected": {
+        "car": {
+          "state": "found",
+          "length_m": 4116.851373276957
+        },
+        "motorcycle": {
+          "state": "found",
+          "length_m": 4116.851373276957
+        },
+        "walking": {
+          "state": "found",
+          "length_m": 3798.004110169457
+        }
+      }
+    },
+    {
+      "case_id": "cat-linh-van-mieu",
+      "start": [
+        105.8258961,
+        21.0284767
+      ],
+      "end": [
+        105.8413331,
+        21.0160965
+      ],
+      "weight": "distance",
+      "tolerance_m": 1,
+      "expected": {
+        "car": {
+          "state": "found",
+          "length_m": 3850.027815982505
+        },
+        "motorcycle": {
+          "state": "found",
+          "length_m": 2944.9649298583854
+        },
+        "walking": {
+          "state": "found",
+          "length_m": 2936.180903760161
+        }
+      }
+    }
+  ]
+}

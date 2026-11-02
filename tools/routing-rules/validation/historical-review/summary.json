@@ -1,0 +1,97 @@
+{
+  "graph_version": "graph-032aff9c6fde9d9e",
+  "candidate_checks": [
+    {
+      "event_id": "HIST-01",
+      "profile": "car",
+      "total_edges": 1111,
+      "truncated": false
+    },
+    {
+      "event_id": "HIST-01",
+      "profile": "motorcycle",
+      "total_edges": 1118,
+      "truncated": false
+    },
+    {
+      "event_id": "HIST-01",
+      "profile": "walking",
+      "total_edges": 1248,
+      "truncated": false
+    },
+    {
+      "event_id": "HIST-02",
+      "profile": "car",
+      "total_edges": 17,
+      "truncated": false
+    },
+    {
+      "event_id": "HIST-02",
+      "profile": "motorcycle",
+      "total_edges": 22,
+      "truncated": false
+    },
+    {
+      "event_id": "HIST-02",
+      "profile": "walking",
+      "total_edges": 34,
+      "truncated": false
+    },
+    {
+      "event_id": "HIST-03",
+      "profile": "car",
+      "total_edges": 294,
+      "truncated": false
+    },
+    {
+      "event_id": "HIST-03",
+      "profile": "motorcycle",
+      "total_edges": 294,
+      "truncated": false
+    },
+    {
+      "event_id": "HIST-03",
+      "profile": "walking",
+      "total_edges": 294,
+      "truncated": false
+    },
+    {
+      "event_id": "HIST-04",
+      "profile": "car",
+      "total_edges": 106,
+      "truncated": false
+    },
+    {
+      "event_id": "HIST-04",
+      "profile": "motorcycle",
+      "total_edges": 106,
+      "truncated": false
+    },
+    {
+      "event_id": "HIST-04",
+      "profile": "walking",
+      "total_edges": 144,
+      "truncated": false
+    },
+    {
+      "event_id": "HIST-05",
+      "profile": "car",
+      "total_edges": 59,
+      "truncated": false
+    },
+    {
+      "event_id": "HIST-05",
+      "profile": "motorcycle",
+      "total_edges": 59,
+      "truncated": false
+    },
+    {
+      "event_id": "HIST-05",
+      "profile": "walking",
+      "total_edges": 88,
+      "truncated": false
+    }
+  ],
+  "offline_draft_validation": "passed for synthetic structural selection; no flood mapping confirmed",
+  "routing_changed": false
+}

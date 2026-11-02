@@ -1,0 +1,10 @@
+﻿case_id,profile,passed,state,length_m
+giai-phong-near-service,car,True,found,4070.0808735993764
+giai-phong-near-service,motorcycle,True,found,4070.0808735993764
+giai-phong-near-service,walking,True,found,3751.1558548653234
+giai-phong-same-road,car,True,found,4116.851373276957
+giai-phong-same-road,motorcycle,True,found,4116.851373276957
+giai-phong-same-road,walking,True,found,3798.004110169457
+cat-linh-van-mieu,car,True,found,3850.027815982505
+cat-linh-van-mieu,motorcycle,True,found,2944.9649298583854
+cat-linh-van-mieu,walking,True,found,2936.180903760161

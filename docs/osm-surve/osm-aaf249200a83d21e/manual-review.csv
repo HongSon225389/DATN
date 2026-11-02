@@ -1,0 +1,3 @@
+﻿"osm_type","osm_id","test_case","evidence_url","observed_at","conclusion","note"
+"relation","9774377","Kiểm tra dữ liệu hạn chế chuyển hướng","","","chưa xác định","Đã xem vị trí và các thành viên from/via/to trong dữ liệu OSM. Chưa có nguồn độc lập để xác nhận hạn chế chuyển hướng ngoài thực tế"
+"relation","9843239","Đối chiếu dữ liệu tải với quan hệ OSM gốc","https://www.openstreetmap.org/relation/9843239","","đúng","Đã đối chiếu restriction=no_left_turn và các thành viên from/via/to với trang OSM. Quan hệ có ngoại lệ bicycle;moped;motorcar;motorcycle. Dữ liệu hiển thị khớp nguồn OSM; chưa xác minh quy định ngoài thực tế."

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Hanoi Flood · Khảo sát mạng đường</title>
+  <link rel="stylesheet" href="/vendor/leaflet.css"><link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header><div><span class="eyebrow">HANOI FLOOD / CÔNG CỤ NGHIÊN CỨU</span><h1>Khảo sát mạng đường</h1></div><div id="dataset" class="dataset">Đang đọc dữ liệu…</div></header>
+  <main>
+    <aside>
+      <p class="intro">Kiểm tra dữ liệu OSM trước khi dựng đồ thị. <strong>Chưa phải công cụ tìm đường hoặc xác nhận quyền lưu thông.</strong></p>
+      <section class="filters" aria-label="Bộ lọc đường">
+        <label for="scope">Phạm vi</label><select id="scope"><option value="study">Vùng phục vụ</option><option value="download">Cả vùng tải có đệm</option><option value="all">Gồm đường phụ thuộc ngoài vùng</option></select>
+        <label for="geometry">Hình học</label><select id="geometry"><option value="linear">Đường dạng tuyến — dùng đối chiếu khảo sát</option><option value="area">Đường dạng vùng (area=yes)</option><option value="all">Cả tuyến và vùng</option></select>
+        <div class="pair"><div><label for="road-class">Loại đường</label><select id="road-class"><option value="">Tất cả</option></select></div><div><label for="flag">Thuộc tính cần xem</label><select id="flag"><option value="">Tất cả</option><option value="missing_speed">Thiếu maxspeed*</option><option value="missing_access">Thiếu quyền đi tường minh</option><option value="missing_name">Thiếu tên</option><option value="oneway">Một chiều (tag chung)</option><option value="bridge">Cầu</option><option value="steps">Bậc thang</option><option value="conditional">Có điều kiện</option><option value="area">Đường dạng vùng</option></select></div></div>
+        <form id="search-form"><label for="query">Tìm tên hoặc mã đường nguồn trong khung bản đồ</label><div class="search-row"><input id="query" type="search" maxlength="200" placeholder="Ví dụ: Đại La hoặc mã OSM"><button type="submit">Lọc</button></div></form>
+        <div class="layer-options"><label><input id="show-turns" type="checkbox"> Hạn chế rẽ</label><label><input id="show-barriers" type="checkbox"> Rào chắn</label><label><input id="show-base" type="checkbox" checked> Bản đồ nền</label></div>
+        <div class="actions"><button id="reset-view" class="secondary" type="button">Về vùng phục vụ</button><button id="refresh" class="secondary" type="button">Tải lớp đường</button></div>
+      </section>
+      <p id="status" class="status" role="status" aria-live="polite">Đang khởi tạo…</p>
+      <p id="error" class="error" role="alert" hidden></p>
+      <section id="detail" hidden aria-label="Chi tiết phần tử đã chọn">
+        <div class="section-top"><h2 id="detail-title"></h2><button id="close-detail" class="icon-button" type="button" aria-label="Đóng chi tiết">×</button></div>
+        <p id="detail-kind" class="muted"></p><p id="detail-warning" class="notice" hidden></p>
+        <a id="osm-link" target="_blank" rel="noopener noreferrer">Mở phần tử trên OSM ↗</a>
+        <h3 id="detail-heading">Thông tin đường</h3><dl id="important-tags"></dl>
+        <details><summary>Tất cả thuộc tính gốc</summary><dl id="all-tags"></dl></details>
+        <div id="members"></div>
+        <form id="review-form">
+          <h3>Phiếu kiểm tra thủ công</h3><p class="muted">Ghi nhận của bạn; không sửa dữ liệu OSM và không tự xác minh ngoài thực địa.</p>
+          <label for="case">Trường hợp kiểm tra</label><input id="case" maxlength="200" placeholder="Ví dụ: chiều đi, cầu vượt, cấm rẽ">
+          <label for="conclusion">Kết luận</label><select id="conclusion"><option value="chưa xác định">Chưa xác định</option><option value="đúng">Đúng theo nguồn đối chiếu</option><option value="cần bổ sung">Cần bổ sung</option></select>
+          <label for="evidence">Nguồn đối chiếu (URL)</label><input id="evidence" type="url" maxlength="2000" placeholder="https://…">
+          <label for="observed">Thời điểm nguồn/quan sát (giờ thiết bị)</label><input id="observed" type="datetime-local" step="1">
+          <label for="note">Nhận xét</label><textarea id="note" rows="3" maxlength="3000" placeholder="Thông tin còn thiếu, nội dung đối chiếu…"></textarea>
+          <button type="submit">Lưu phiếu trên trình duyệt</button><p id="save-status" role="status" class="muted"></p>
+        </form>
+      </section>
+      <section class="review-tools"><div class="section-top"><h2>Danh sách kiểm tra</h2><span id="review-count" class="count">0 phiếu</span></div>
+        <div class="actions"><button id="export-csv" type="button">Xuất manual-review.csv</button><button id="export-json" type="button" class="secondary">Sao lưu JSON</button></div>
+        <label class="import-label" for="import-json">Khôi phục phiếu từ JSON <input id="import-json" type="file" accept="application/json,.json"></label>
+        <p class="muted">Phiếu lưu theo phiên bản dữ liệu và địa chỉ localhost. Xuất file trước khi xóa dữ liệu trình duyệt hoặc đổi cổng.</p>
+        <div class="tabs"><button id="tab-visible" type="button" aria-pressed="true">Đường trong khung</button><button id="tab-samples" type="button" aria-pressed="false">Mẫu gợi ý</button><button id="tab-saved" type="button" aria-pressed="false">Phiếu đã lưu</button></div>
+        <p id="list-note" class="muted"></p><div id="item-list"></div>
+      </section>
+    </aside>
+    <section class="map-wrapper" aria-label="Bản đồ khảo sát"><div id="map"></div>
+      <div id="base-error" class="map-notice" hidden>Không tải được bản đồ nền. Các đường khảo sát vẫn xem được; có thể tắt “Bản đồ nền”.</div>
+      <div class="legend"><span><i style="background:#a85826"></i>Đường chính</span><span><i style="background:#416887"></i>Đường khu dân cư / tiếp cận</span><span><i style="background:#22836a"></i>Lối đi bộ / bậc thang</span><span><i style="background:#8a4bba"></i>Hạn chế rẽ</span><span><i style="background:#e48720"></i>Rào chắn</span><span><i style="background:#1769e0"></i>Đang chọn</span></div>
+    </section>
+  </main>
+  <script src="/vendor/leaflet.js"></script><script type="module" src="/app.js"></script>
+</body>
+</html>
