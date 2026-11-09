@@ -20,6 +20,13 @@ class RouteHttpTests(unittest.TestCase):
         finally:c.close()
     def test_route_api_returns_geojson(self):
         status,data=self.request();self.assertEqual(status,200);self.assertEqual(data['state'],'found');self.assertEqual(data['route']['geometry']['type'],'LineString')
+    def test_schedule_api_estimates_without_changing_route(self):
+        _,base=self.request()
+        status,r=self.request(schedule_mode='arrive_by',schedule_at='2026-10-29T09:00:00+07:00')
+        self.assertEqual(status,200);self.assertEqual(r['edge_ids'],base['edge_ids'])
+        self.assertEqual(r['schedule']['state'],'estimated')
+        self.assertFalse(r['schedule']['time_dependent_routing'])
+        self.assertEqual(self.request(schedule_mode='depart_at',schedule_at='2026-10-29T08:00')[0],400)
     def test_edge_attachment_and_explicit_selection(self):
         status,data=self.request(start_edge='10',end_edge='20')
         self.assertEqual(status,200);self.assertEqual(data['attachment_method'],'edge_projection')

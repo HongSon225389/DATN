@@ -9,6 +9,7 @@ from urllib.parse import parse_qs,urlsplit
 from inspect_graph import Dataset
 from experimental_router import Router
 import threading
+from route_timing import parse_request,estimate
 
 STATIC=Path(__file__).with_name('graph-viewer')
 
@@ -29,6 +30,7 @@ def handler_for(data):
                 profile=one('profile','car');weight=one('weight','distance');kind=one('kind','wcc')
                 if url.path=='/api/route':
                     if profile not in data.graphs:raise ValueError('Phương tiện không hợp lệ')
+                    timing=parse_request(one('schedule_mode',None),one('schedule_at',None))
                     if not route_lock.acquire(blocking=False):
                         self.respond(429,{'message':'Đang tính tuyến khác, thử lại sau'});return
                     try:
@@ -41,6 +43,8 @@ def handler_for(data):
                             comparison=data.flood.compare(routers[profile],*args,**options)
                             result={**comparison['avoided'],'baseline':comparison['baseline'],'flood_overlay':comparison['overlay'],'distance_delta_m':comparison['distance_delta_m']}
                         else:result=routers[profile].route_edges(*args,**options)
+                        result=estimate(result,timing)
+                        if 'baseline' in result:result['baseline']=estimate(result['baseline'],timing)
                         self.respond(200,result)
                     finally:route_lock.release()
                 elif url.path=='/api/review':

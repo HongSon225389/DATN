@@ -49,7 +49,7 @@ el('floodExample').onclick=()=>{invalidateRoute();routeStart=floodTestPair?flood
 el('diagnostic').onchange=invalidateRoute;el('avoidFlood').onchange=invalidateRoute;
 el('routeGo').onclick=async()=>{invalidateRoute();if(!routeStart||!routeEnd){el('routeStatus').textContent='Cần chọn đủ điểm đi và điểm đến.';return;}
  const request=++routeSeq,button=el('routeGo');button.disabled=true;el('routeStatus').textContent='Đang tính, tối đa 15 giây tìm kiếm...';
- try{const query=new URLSearchParams({profile:el('profile').value,weight:el('weight').value,mode:el('diagnostic').checked?'diagnostic':'strict',start:routeStart.join(','),end:routeEnd.join(','),max_snap:'100',avoid_flood:el('avoidFlood').checked?'true':'false'});if(el('startRoad').value)query.set('start_edge',el('startRoad').value);if(el('endRoad').value)query.set('end_edge',el('endRoad').value);const result=await get('/api/route?'+query);if(request!==routeSeq)return;
+ try{const query=new URLSearchParams({profile:el('profile').value,weight:el('weight').value,mode:el('diagnostic').checked?'diagnostic':'strict',start:routeStart.join(','),end:routeEnd.join(','),max_snap:'100',avoid_flood:el('avoidFlood').checked?'true':'false'});if(el('startRoad').value)query.set('start_edge',el('startRoad').value);if(el('endRoad').value)query.set('end_edge',el('endRoad').value);if(el('scheduleMode').value!=='none'){if(!el('scheduleAt').value)throw new Error('Cần chọn ngày giờ.');query.set('schedule_mode',el('scheduleMode').value);query.set('schedule_at',el('scheduleAt').value+':00+07:00');}const result=await get('/api/route?'+query);if(request!==routeSeq)return;
  showAttachments(result);
  if(result.baseline?.route)L.geoJSON(result.baseline.route,{style:{color:'#64748b',weight:5,dashArray:'8 6',opacity:.8}}).addTo(routeLayer);
 
@@ -57,7 +57,7 @@ el('routeGo').onclick=async()=>{invalidateRoute();if(!routeStart||!routeEnd){el(
  if(result.state!=='found'){el('routeStatus').textContent=labels[result.state]||result.state;el('detail').textContent=JSON.stringify(result,null,2);return;}
  const line=L.geoJSON(result.route,{style:{color:result.mode==='diagnostic'?'#c16b12':'#1768a8',weight:7,opacity:.95}}).addTo(routeLayer);map.fitBounds(line.getBounds(),{padding:[30,30],maxZoom:17});
  for(const snap of [result.snapped_start,result.snapped_end])L.circleMarker([snap.position[1],snap.position[0]],{radius:4,color:'#fff',weight:1,fillColor:'#111827',fillOpacity:1}).addTo(snapLayer);
- el('routeStatus').textContent=(result.mode==='diagnostic'?'TUYẾN CHẨN ĐOÁN — chưa đủ coverage. ':'Tuyến theo bộ quy tắc mô hình. ')+(result.length_m/1000).toFixed(2)+' km · '+(result.base_time_seconds===null?'chưa có thời gian':(result.base_time_seconds/60).toFixed(1)+' phút cơ sở')+'. Độ lệch nối đường: '+result.snapped_start.offset_m.toFixed(1)+'m / '+result.snapped_end.offset_m.toFixed(1)+'m. '+(result.flood_overlay?'Đã tránh vùng ngập đã nạp ('+result.flood_overlay.data_mode+'). ':'Chưa xét ngập. ')+'Chưa xét giao thông và lối tiếp cận từ điểm yêu cầu.';el('detail').textContent=JSON.stringify(result,null,2);
+ el('routeStatus').textContent=(result.mode==='diagnostic'?'TUYẾN CHẨN ĐOÁN — chưa đủ coverage. ':'Tuyến theo bộ quy tắc mô hình. ')+(result.length_m/1000).toFixed(2)+' km · '+(result.base_time_seconds===null?'chưa có thời gian':(result.base_time_seconds/60).toFixed(1)+' phút cơ sở')+'. Độ lệch nối đường: '+result.snapped_start.offset_m.toFixed(1)+'m / '+result.snapped_end.offset_m.toFixed(1)+'m. '+(result.flood_overlay?'Đã tránh vùng ngập đã nạp ('+result.flood_overlay.data_mode+'). ':'Chưa xét ngập. ')+'Chưa xét giao thông và lối tiếp cận từ điểm yêu cầu.';if(result.schedule?.state==='estimated'){const fmt=v=>new Date(v).toLocaleString('vi-VN',{timeZone:'Asia/Ho_Chi_Minh'});el('routeStatus').textContent+=' Giờ đi ước tính: '+fmt(result.schedule.estimated_departure)+'; giờ đến ước tính: '+fmt(result.schedule.estimated_arrival)+'. '+result.schedule.notice;}el('detail').textContent=JSON.stringify(result,null,2);
  }catch(e){if(request===routeSeq)el('routeStatus').textContent=e.message;}finally{button.disabled=false;}};
 
 function showAttachments(result){
@@ -72,3 +72,5 @@ function showAttachments(result){
 }
 for(const id of ['startRoad','endRoad'])el(id).onchange=invalidateRoute;
 refreshInfo();
+
+for(const id of ['scheduleMode','scheduleAt'])el(id).onchange=invalidateRoute;
